@@ -1,0 +1,179 @@
+﻿<Window x:Class="EasyMiner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyMiner"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="480" Width="800"
+        Closing="onClosing" 
+        ResizeMode="NoResize"
+        Topmost="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <VisualBrush x:Key="_menu" Visual="{StaticResource menu}" />
+        <Style x:Key="tb_style" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True"></Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource _menu}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource _menu}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid Background="Black">
+            <!-- Main Panel -->
+            <Grid HorizontalAlignment="Right" Width="736">
+                <Grid x:Name="mineGrid">
+                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="638,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88"/>
+                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="545,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88"/>
+                </Grid>
+                <Grid x:Name="statsGrid">
+
+                </Grid>
+                <Grid x:Name="helpGrid">
+
+                </Grid>
+                <Grid x:Name="settingsGrid">
+                    <Label Content="EasyMiner Settings" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="32"/>
+                    <Label Content="uPlexa Address" HorizontalAlignment="Left" Margin="24,86,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                    <TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="132,90,0,0" Text="UPXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" TextWrapping="Wrap" VerticalAlignment="Top" Width="576" Height="24" Background="#BBBBBB"/>
+                    <Label Content="Worker Name (optional)" HorizontalAlignment="Left" Margin="24,144,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                    <TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="191,146,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Height="24" Background="#BBBBBB"/>
+                    <Label Content="Mining CPU Priority" HorizontalAlignment="Left" Margin="24,200,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                    <ComboBox HorizontalAlignment="Left" Background="#BBBBBB" Margin="191,201,0,0" VerticalAlignment="Top" Width="84" FontSize="16" Height="28">
+                        <ComboBoxItem>Low</ComboBoxItem>
+                        <ComboBoxItem IsSelected="True">Normal</ComboBoxItem>
+                        <ComboBoxItem>High</ComboBoxItem>
+                    </ComboBox>
+                    <Label Content="Mining Threads" HorizontalAlignment="Left" Margin="24,240,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                    <ComboBox x:Name="threadsBox" Background="#BBBBBB" HorizontalAlignment="Left" Margin="191,241,0,0" VerticalAlignment="Top" Width="84" FontSize="16" Height="28">
+                    </ComboBox>
+                    <Button x:Name="saveSettings" Content="Save Settings" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="140" FontSize="20"/>
+
+                </Grid>
+            </Grid>
+            <!-- Left Panel -->
+            <Grid x:Name="navPanel" HorizontalAlignment="Left" Width="64" Background="#444444">
+                <StackPanel x:Name="stackPanel">
+                    <Grid Height="64">
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="73, 0, 0, 0" Text="EasyMiner" Foreground="White" FontSize="24" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        </TextBlock>
+                        <ToggleButton x:Name="toggleButton" Grid.Column="0" HorizontalAlignment="Left" Height="24" Width="24" Margin="20,20,20,20" Style="{StaticResource tb_style}">
+                            <ToggleButton.Background>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource menu}" />
+                            </ToggleButton.Background>
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard x:Name="HideStackPanel">
+                                            <DoubleAnimation Storyboard.TargetName="navPanel" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="200" To="64" Duration="0:0:0.25">
+
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard x:Name="ShowStackPanel">
+                                            <DoubleAnimation Storyboard.TargetName="navPanel" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="64" To="200" Duration="0:0:0.25">
+
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+                    </Grid>
+                    <ListView x:Name="listView" Background="Transparent" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="listView_SelectionChanged">
+                        <!-- Mine -->
+                        <ListViewItem x:Name="menuMine" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                            <StackPanel Orientation="Horizontal" Width="256">
+                                <Image Height="24" Width="24" Source="{StaticResource mine}" Margin="12, 0, 0, 0"></Image>
+                                <TextBlock Text="Mining" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                            </StackPanel>
+                            <ListViewItem.ToolTip>
+                                <ToolTip x:Name="tt_mine" Content="Mine"></ToolTip>
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+                        <!-- Stats -->
+                        <ListViewItem x:Name="menuStats" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                            <StackPanel Orientation="Horizontal" Width="256">
+                                <Image Height="24" Width="24" Source="{StaticResource stats}" Margin="12, 0, 0, 0"></Image>
+                                <TextBlock Text="Stats" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                            </StackPanel>
+                            <ListViewItem.ToolTip>
+                                <ToolTip x:Name="tt_stats" Content="Stats"></ToolTip>
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+                        <!-- Help -->
+                        <ListViewItem x:Name="menuHelp" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                            <StackPanel Orientation="Horizontal" Width="256">
+                                <Image Height="24" Width="24" Source="{StaticResource help}" Margin="12, 0, 0, 0"></Image>
+                                <TextBlock Text="Help" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                            </StackPanel>
+                            <ListViewItem.ToolTip>
+                                <ToolTip x:Name="tt_help" Content="Help"></ToolTip>
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+                        <!-- Settings -->
+                        <ListViewItem x:Name="menuSettings" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                            <StackPanel Orientation="Horizontal" Width="256">
+                                <Image Height="24" Width="24" Source="{StaticResource settings}" Margin="12, 0, 0, 0"></Image>
+                                <TextBlock Text="Settings" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                            </StackPanel>
+                            <ListViewItem.ToolTip>
+                                <ToolTip x:Name="tt_settings" Content="Settings"></ToolTip>
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+                        <!-- Exit -->
+                        <ListViewItem x:Name="menuExit" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                            <StackPanel Orientation="Horizontal" Width="256">
+                                <Image Height="24" Width="24" Source="{StaticResource exit}" Margin="12, 0, 0, 0"></Image>
+                                <TextBlock Text="Exit" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                            </StackPanel>
+                            <ListViewItem.ToolTip>
+                                <ToolTip x:Name="tt_exit" Content="Exit"></ToolTip>
+                            </ListViewItem.ToolTip>
+                        </ListViewItem>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <Border x:Name="Bd" Height="50" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                </ContentPresenter>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True"></Condition>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="Background" TargetName="Bd" Value="#404D5B"></Setter>
+                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="#404D5B"></Setter>
+                                                </MultiTrigger>
+                                            </ControlTemplate.Triggers>
+
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
