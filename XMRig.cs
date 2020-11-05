@@ -24,6 +24,9 @@ namespace EasyMiner
     {
         public string minerPath = "";
         public string minerOutput = "";
+        public string minerHashrate = "";
+        public int acceptedShares = 0;
+        public int declinedShares = 0;
         public Process proc = null;
         public XMRig(string customPath = null)
         {
@@ -51,6 +54,26 @@ namespace EasyMiner
                 if (!String.IsNullOrEmpty(e.Data))
                 {
                     minerOutput += e.Data + "\n";
+                    if(e.Data.Contains("accepted"))
+                    {
+                        int _index = e.Data.IndexOf('(') + 1;
+                        int _separator= 0;
+                        int _end = 0;
+                        for(int i = _index; i < e.Data.Length; i++)
+                        {
+                            if (e.Data[i] == '/') _separator = i;
+                        }
+                        for (int i = _index; i < e.Data.Length; i++)
+                        {
+                            if (e.Data[i] == ')') _end = i - 1;
+                        }
+                        string accepted = e.Data.Substring(_index, _separator - _index);
+
+                    }
+                    else if(e.Data.Contains("speed"))
+                    {
+
+                    }
                 }
             });
 

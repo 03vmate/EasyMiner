@@ -28,13 +28,13 @@ namespace EasyMiner
     }
     class PoolConnector
     {
-        string host = "https://api.uplexa.online/";
+        string host = "https://api.uplexa.online";
         public PoolConnector() { }
 
         public async Task<string> AsyncGetPoolStats()
         {
             HttpClient httpClient = new HttpClient();
-            var result = await httpClient.GetAsync(host + "stats");
+            var result = await httpClient.GetAsync(host + "/stats");
             return await result.Content.ReadAsStringAsync();
         }
 

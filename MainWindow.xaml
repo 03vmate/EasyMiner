@@ -175,5 +175,6 @@
                 </StackPanel>
             </Grid>
         </Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="-206,68,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
     </Grid>
 </Window>
