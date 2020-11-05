@@ -25,6 +25,7 @@ namespace EasyMiner
     public partial class MainWindow : Window
     {
         XMRig miner = new XMRig();
+        XMRigConfig conf = new XMRigConfig();
         PoolConnector pool = new PoolConnector();
         DispatcherTimer timer;
         byte selectedScreen = 0;
@@ -52,18 +53,13 @@ namespace EasyMiner
             helpGrid.Visibility = Visibility.Hidden;
             settingsGrid.Visibility = Visibility.Visible;
 
+            conf.host = "mine.uplexa.online:1111";
+            conf.algo = "cn-extremelite/upx2";
+
         }
 
         private void startMining_Click(object sender, RoutedEventArgs e)
         {
-            XMRigConfig conf = new XMRigConfig();
-            conf.host = "mine.uplexa.online:1111";
-            conf.algo = "cn-extremelite/upx2";
-            conf.user = "UPX1rv5G6GW1N1Nv9tLQaBZrUDo2g5uTVH9rmiYVWMNHgyuRRaTBBy36d9LmYawvCvR71NUTTAD3MBY8pVKnP7c5AghMbHFsrR";
-            conf.pass = "@Ryzen";
-            conf.threads = 8;
-            conf.priority = 1;
-
             miner.StartMining(conf);
         }
 
@@ -152,6 +148,18 @@ namespace EasyMiner
                     ExitButton();
                     break;
             }
+        }
+
+        private void saveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            conf.user = addressBox.Text;
+            conf.pass = "@" + workerBox.Text;
+            conf.threads = threadsBox.SelectedIndex + 1;
+
+            ComboBoxItem selectedPriority = (ComboBoxItem)priorityBox.SelectedItem;
+            if (selectedPriority.Content.ToString() == "Low") conf.priority = 1;
+            else if (selectedPriority.Content.ToString() == "Normal") conf.priority = 2;
+            else if (selectedPriority.Content.ToString() == "High") conf.priority = 4;
         }
     }
 }

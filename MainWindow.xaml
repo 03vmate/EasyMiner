@@ -48,11 +48,11 @@
                 <Grid x:Name="settingsGrid">
                     <Label Content="EasyMiner Settings" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="32"/>
                     <Label Content="uPlexa Address" HorizontalAlignment="Left" Margin="24,86,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
-                    <TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="132,90,0,0" Text="UPXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" TextWrapping="Wrap" VerticalAlignment="Top" Width="576" Height="24" Background="#BBBBBB"/>
-                    <Label Content="Worker Name (optional)" HorizontalAlignment="Left" Margin="24,144,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
-                    <TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="191,146,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Height="24" Background="#BBBBBB"/>
+                    <TextBox x:Name="addressBox" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="132,90,0,0" Text="UPXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" TextWrapping="Wrap" VerticalAlignment="Top" Width="576" Height="24" Background="#BBBBBB"/>
+                    <Label Content="Worker Name" HorizontalAlignment="Left" Margin="24,144,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                    <TextBox x:Name="workerBox" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="132,149,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Height="24" Background="#BBBBBB"/>
                     <Label Content="Mining CPU Priority" HorizontalAlignment="Left" Margin="24,200,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
-                    <ComboBox HorizontalAlignment="Left" Background="#BBBBBB" Margin="191,201,0,0" VerticalAlignment="Top" Width="84" FontSize="16" Height="28">
+                    <ComboBox x:Name="priorityBox" HorizontalAlignment="Left" Background="#BBBBBB" Margin="191,201,0,0" VerticalAlignment="Top" Width="84" FontSize="16" Height="28">
                         <ComboBoxItem>Low</ComboBoxItem>
                         <ComboBoxItem IsSelected="True">Normal</ComboBoxItem>
                         <ComboBoxItem>High</ComboBoxItem>
@@ -60,7 +60,7 @@
                     <Label Content="Mining Threads" HorizontalAlignment="Left" Margin="24,240,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
                     <ComboBox x:Name="threadsBox" Background="#BBBBBB" HorizontalAlignment="Left" Margin="191,241,0,0" VerticalAlignment="Top" Width="84" FontSize="16" Height="28">
                     </ComboBox>
-                    <Button x:Name="saveSettings" Content="Save Settings" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="140" FontSize="20"/>
+                    <Button x:Name="saveSettings" Content="Save Settings" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="140" FontSize="20" Click="saveSettings_Click"/>
 
                 </Grid>
             </Grid>

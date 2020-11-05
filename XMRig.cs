@@ -16,6 +16,7 @@ namespace EasyMiner
         public string pass;
         public int threads;
         public int priority;
+
     }
 
 
