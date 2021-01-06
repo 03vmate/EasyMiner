@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,8 @@ namespace EasyMiner
             threadsBox.Items.Refresh();
             threadsBox.SelectedValue = threads.ToString();
 
+            StopMining.IsEnabled = false;
+
             selectedScreen = 3;
             mineGrid.Visibility = Visibility.Hidden;
             statsGrid.Visibility = Visibility.Hidden;
@@ -61,20 +64,21 @@ namespace EasyMiner
         private void startMining_Click(object sender, RoutedEventArgs e)
         {
             miner.StartMining(conf);
+            StopMining.IsEnabled = true;
+            startMining.IsEnabled = false;
         }
 
         public void stopMining_Click(object sender, RoutedEventArgs e)
         {
             miner.StopMining();
+            StopMining.IsEnabled = false;
+            startMining.IsEnabled = true;
         }
 
         private void tick(object sender, EventArgs e)
         {
             PoolStats s = new PoolStats();
             s = pool.GetPoolStats();
-            //poolstats.Text = s.ToString();
-            //textb.Text = miner.minerOutput;
-            //textb.ScrollToEnd();
 
         }
 
@@ -160,6 +164,18 @@ namespace EasyMiner
             if (selectedPriority.Content.ToString() == "Low") conf.priority = 1;
             else if (selectedPriority.Content.ToString() == "Normal") conf.priority = 2;
             else if (selectedPriority.Content.ToString() == "High") conf.priority = 4;
+        }
+
+        private void showLog_Click(object sender, RoutedEventArgs e)
+        {
+            xmrigOutput _xmrigOutput = new xmrigOutput();
+            _xmrigOutput.textblock.Text = miner.minerOutput;
+            _xmrigOutput.Show();
+        }
+
+        public string getXmrigOutput()
+        {
+            return miner.minerOutput;
         }
     }
 }

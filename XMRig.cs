@@ -37,6 +37,7 @@ namespace EasyMiner
         public void StopMining()
         {
             if(proc != null) proc.Kill(true);
+            proc = null;
         }
 
         public void StartMining(XMRigConfig config)
@@ -48,7 +49,8 @@ namespace EasyMiner
             _proc.StartInfo.UseShellExecute = false;
             _proc.StartInfo.RedirectStandardOutput = true;
             _proc.StartInfo.RedirectStandardInput = true;
-            _proc.StartInfo.CreateNoWindow = true;
+            _proc.StartInfo.CreateNoWindow = false;
+            
             _proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
             {
                 if (!String.IsNullOrEmpty(e.Data))
@@ -65,9 +67,15 @@ namespace EasyMiner
                         }
                         for (int i = _index; i < e.Data.Length; i++)
                         {
-                            if (e.Data[i] == ')') _end = i - 1;
+                            if (e.Data[i] == ')')
+                            {
+                                _end = i - 1;
+                                break;
+                            }
                         }
                         string accepted = e.Data.Substring(_index, _separator - _index);
+                        string total = e.Data.Substring(_separator + 1, _end - _separator);
+                        Debug.WriteLine($"accepted: {accepted}/{total}");
 
                     }
                     else if(e.Data.Contains("speed"))

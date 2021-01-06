@@ -5,11 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyMiner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="800"
+        Title="EasyMiner" Height="520" Width="800"
         Closing="onClosing" 
         ResizeMode="NoResize"
-        Topmost="True"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <VisualBrush x:Key="_menu" Visual="{StaticResource menu}" />
@@ -36,8 +35,9 @@
             <!-- Main Panel -->
             <Grid HorizontalAlignment="Right" Width="736">
                 <Grid x:Name="mineGrid">
-                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="638,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88"/>
-                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="545,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88"/>
+                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="638,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88" Click="startMining_Click"/>
+                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="545,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88" Click="stopMining_Click"/>
+                    <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" Margin="29,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88" Click="showLog_Click"/>
                 </Grid>
                 <Grid x:Name="statsGrid">
 
@@ -175,6 +175,5 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="-206,68,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
     </Grid>
 </Window>
