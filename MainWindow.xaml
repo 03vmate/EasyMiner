@@ -11,6 +11,7 @@
         WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
+
         <VisualBrush x:Key="_menu" Visual="{StaticResource menu}" />
         <Style x:Key="tb_style" TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
@@ -35,9 +36,10 @@
             <!-- Main Panel -->
             <Grid HorizontalAlignment="Right" Width="736">
                 <Grid x:Name="mineGrid">
-                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="638,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88" Click="startMining_Click"/>
-                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="545,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88" Click="stopMining_Click"/>
-                    <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" Margin="29,430,0,0" VerticalAlignment="Top" Background="#BBBBBB" Height="40" Width="88" Click="showLog_Click"/>
+                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="638,430,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="startMining_Click"/>
+                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="545,430,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="stopMining_Click"/>
+                    <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" Margin="29,430,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="showLog_Click"/>
+
                 </Grid>
                 <Grid x:Name="statsGrid">
 
@@ -48,7 +50,7 @@
                 <Grid x:Name="settingsGrid">
                     <Label Content="EasyMiner Settings" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="32"/>
                     <Label Content="uPlexa Address" HorizontalAlignment="Left" Margin="24,86,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
-                    <TextBox x:Name="addressBox" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="132,90,0,0" Text="UPXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" TextWrapping="Wrap" VerticalAlignment="Top" Width="576" Height="24" Background="#BBBBBB"/>
+                    <TextBox x:Name="addressBox" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="132,82,0,0" Text="UPXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" TextWrapping="Wrap" VerticalAlignment="Top" Width="576" Height="37" Background="#BBBBBB" PreviewMouseDown="addressBox_PreviewMouseDown"/>
                     <Label Content="Worker Name" HorizontalAlignment="Left" Margin="24,144,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
                     <TextBox x:Name="workerBox" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="132,149,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Height="24" Background="#BBBBBB"/>
                     <Label Content="Mining CPU Priority" HorizontalAlignment="Left" Margin="24,200,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
@@ -60,7 +62,7 @@
                     <Label Content="Mining Threads" HorizontalAlignment="Left" Margin="24,240,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
                     <ComboBox x:Name="threadsBox" Background="#BBBBBB" HorizontalAlignment="Left" Margin="191,241,0,0" VerticalAlignment="Top" Width="84" FontSize="16" Height="28">
                     </ComboBox>
-                    <Button x:Name="saveSettings" Content="Save Settings" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="140" FontSize="20" Click="saveSettings_Click"/>
+                    <Button x:Name="saveSettings" Content="Save Settings" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="140" FontSize="16" Click="saveSettings_Click"/>
 
                 </Grid>
             </Grid>

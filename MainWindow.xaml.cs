@@ -25,7 +25,7 @@ namespace EasyMiner
 
     public partial class MainWindow : Window
     {
-        XMRig miner = new XMRig();
+        public XMRig miner = new XMRig();
         XMRigConfig conf = new XMRigConfig();
         PoolConnector pool = new PoolConnector();
         DispatcherTimer timer;
@@ -48,7 +48,7 @@ namespace EasyMiner
             threadsBox.Items.Refresh();
             threadsBox.SelectedValue = threads.ToString();
 
-            StopMining.IsEnabled = false;
+            StopMining.Visibility = Visibility.Hidden;
 
             selectedScreen = 3;
             mineGrid.Visibility = Visibility.Hidden;
@@ -63,16 +63,21 @@ namespace EasyMiner
 
         private void startMining_Click(object sender, RoutedEventArgs e)
         {
+            if(conf.user == null)
+            {
+                MessageBox.Show("Please set your uPlexa address on the settings tab before mining");
+                return;
+            }
             miner.StartMining(conf);
-            StopMining.IsEnabled = true;
-            startMining.IsEnabled = false;
+            StopMining.Visibility = Visibility.Visible;
+            startMining.Visibility = Visibility.Hidden;
         }
 
         public void stopMining_Click(object sender, RoutedEventArgs e)
         {
             miner.StopMining();
-            StopMining.IsEnabled = false;
-            startMining.IsEnabled = true;
+            StopMining.Visibility = Visibility.Hidden;
+            startMining.Visibility = Visibility.Visible;
         }
 
         private void tick(object sender, EventArgs e)
@@ -89,8 +94,8 @@ namespace EasyMiner
 
         private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
         {
-            Visibility c = Visibility.Collapsed;
-            Visibility v = Visibility.Visible;
+            const Visibility c = Visibility.Collapsed;
+            const Visibility v = Visibility.Visible;
             if(toggleButton.IsChecked == true)
             {
                 tt_mine.Visibility = c;
@@ -176,6 +181,11 @@ namespace EasyMiner
         public string getXmrigOutput()
         {
             return miner.minerOutput;
+        }
+
+        private void addressBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(addressBox.Text == "UPXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx") addressBox.Text = "";
         }
     }
 }

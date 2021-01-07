@@ -36,7 +36,18 @@ namespace EasyMiner
 
         private void tick(object sender, EventArgs e)
         {
-            this.textblock.Text = ((MainWindow)Application.Current.MainWindow).getXmrigOutput();
+            MainWindow main = (MainWindow)Application.Current.MainWindow;
+            if (main.miner.proc != null)
+            {
+                textblock.Text = main.getXmrigOutput();
+                scrollv.ScrollToEnd();
+            }
+            
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(textblock.Text);
         }
     }
 }

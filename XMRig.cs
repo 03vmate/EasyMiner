@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace EasyMiner
 {
-    struct XMRigConfig
+    public struct XMRigConfig
     {
         public string host;
         public string algo;
@@ -20,7 +20,7 @@ namespace EasyMiner
     }
 
 
-    class XMRig
+    public class XMRig
     {
         public string minerPath = "";
         public string minerOutput = "";
@@ -49,7 +49,7 @@ namespace EasyMiner
             _proc.StartInfo.UseShellExecute = false;
             _proc.StartInfo.RedirectStandardOutput = true;
             _proc.StartInfo.RedirectStandardInput = true;
-            _proc.StartInfo.CreateNoWindow = false;
+            _proc.StartInfo.CreateNoWindow = true;
             
             _proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
             {
