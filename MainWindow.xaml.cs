@@ -59,6 +59,10 @@ namespace EasyMiner
             conf.host = "mine.uplexa.online:1111";
             conf.algo = "cn-extremelite/upx2";
 
+            //DEBUG
+            conf.user = "UPX1rv5G6GW1N1Nv9tLQaBZrUDo2g5uTVH9rmiYVWMNHgyuRRaTBBy36d9LmYawvCvR71NUTTAD3MBY8pVKnP7c5AghMbHFsrR";
+            //DEBUG
+
         }
 
         private void startMining_Click(object sender, RoutedEventArgs e)
@@ -152,6 +156,7 @@ namespace EasyMiner
                     statsGrid.Visibility = Visibility.Hidden;
                     helpGrid.Visibility = Visibility.Hidden;
                     settingsGrid.Visibility = Visibility.Visible;
+
                     break;
                 case "Exit":
                     ExitButton();

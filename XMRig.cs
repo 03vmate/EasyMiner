@@ -16,12 +16,21 @@ namespace EasyMiner
         public string pass;
         public int threads;
         public int priority;
-
     }
-
 
     public class XMRig
     {
+        private struct XMRigStats
+        {
+            public UInt16 acceptedShares;
+            public UInt16 invalidShares;
+            public UInt64 difficulty;
+            public int hashrateCurrent;
+            public int hashrate60s;
+            public int hashrate15m;
+        };
+
+        XMRigStats stats = new XMRigStats();
         public string minerPath = "";
         public string minerOutput = "";
         public string minerHashrate = "";
@@ -56,31 +65,26 @@ namespace EasyMiner
                 if (!String.IsNullOrEmpty(e.Data))
                 {
                     minerOutput += e.Data + "\n";
-                    if(e.Data.Contains("accepted"))
-                    {
-                        int _index = e.Data.IndexOf('(') + 1;
-                        int _separator= 0;
-                        int _end = 0;
-                        for(int i = _index; i < e.Data.Length; i++)
-                        {
-                            if (e.Data[i] == '/') _separator = i;
-                        }
-                        for (int i = _index; i < e.Data.Length; i++)
-                        {
-                            if (e.Data[i] == ')')
-                            {
-                                _end = i - 1;
-                                break;
-                            }
-                        }
-                        string accepted = e.Data.Substring(_index, _separator - _index);
-                        string total = e.Data.Substring(_separator + 1, _end - _separator);
-                        Debug.WriteLine($"accepted: {accepted}/{total}");
 
+                    //Parsing from stdout to stats
+                    string[] split = e.Data.Split(' ');
+                    if (e.Data.Contains("accepted"))
+                    {
+                        string[] shares = split[6].Substring(1, split[6].Length - 2).Split('/');
+                        stats.acceptedShares = UInt16.Parse(shares[0]);
+                        stats.invalidShares = UInt16.Parse(shares[1]);
+                        stats.difficulty = UInt64.Parse(split[8]);
                     }
-                    else if(e.Data.Contains("speed"))
+                    else if (e.Data.Contains("speed"))
                     {
-
+                        string[] _h = {split[4],split[5],split[6]};
+                        stats.hashrateCurrent = Convert.ToInt32(Convert.ToDouble(_h[0]));
+                        stats.hashrate60s = Convert.ToInt32(Convert.ToDouble(_h[1]));
+                        stats.hashrate15m = Convert.ToInt32(Convert.ToDouble(_h[2]));
+                    }
+                    else if(e.Data.Contains("new job from"))
+                    {
+                        stats.difficulty = UInt64.Parse(split[10]);
                     }
                 }
             });
