@@ -20,7 +20,7 @@ namespace EasyMiner
 
     public class XMRig
     {
-        private struct XMRigStats
+        public struct XMRigStats
         {
             public UInt16 acceptedShares;
             public UInt16 invalidShares;
@@ -30,7 +30,7 @@ namespace EasyMiner
             public int hashrate15m;
         };
 
-        XMRigStats stats = new XMRigStats();
+        public XMRigStats stats = new XMRigStats();
         public string minerPath = "";
         public string minerOutput = "";
         public string minerHashrate = "";
@@ -78,9 +78,9 @@ namespace EasyMiner
                     else if (e.Data.Contains("speed"))
                     {
                         string[] _h = {split[4],split[5],split[6]};
-                        stats.hashrateCurrent = Convert.ToInt32(Convert.ToDouble(_h[0]));
-                        stats.hashrate60s = Convert.ToInt32(Convert.ToDouble(_h[1]));
-                        stats.hashrate15m = Convert.ToInt32(Convert.ToDouble(_h[2]));
+                        stats.hashrateCurrent = _h[0] != "n/a" ? Convert.ToInt32(Convert.ToDouble(_h[0])) : 0;
+                        stats.hashrate60s = _h[1] != "n/a" ? Convert.ToInt32(Convert.ToDouble(_h[1])) : 0;
+                        stats.hashrate15m = _h[2] != "n/a" ? Convert.ToInt32(Convert.ToDouble(_h[2])) : 0;
                     }
                     else if(e.Data.Contains("new job from"))
                     {

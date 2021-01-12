@@ -65,6 +65,22 @@ namespace EasyMiner
 
         }
 
+        public string FormatHashrate(int hashrate)
+        {
+            if(hashrate < 1000)
+            {
+                return hashrate + " H/s";
+            }
+            else if(hashrate < 1000*1000)
+            {
+                return (hashrate / 1000F).ToString("0.00") + " kH/s";
+            }
+            else
+            {
+                return (hashrate / 1000000F).ToString("0.00") + " MH/s";
+            }
+        }
+
         private void startMining_Click(object sender, RoutedEventArgs e)
         {
             if(conf.user == null)
@@ -88,6 +104,12 @@ namespace EasyMiner
         {
             PoolStats s = new PoolStats();
             s = pool.GetPoolStats();
+            if(miner.proc != null)
+            {
+                hr.Content = FormatHashrate(miner.stats.hashrateCurrent);
+            }
+            
+
 
         }
 
