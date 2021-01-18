@@ -1,2 +1,6 @@
 # EasyMiner
-Easy to use miner for https://uplexa.online, based on xmrigCC
+WIP Easy to use miner for https://uplexa.online, using https://github.com/Bendr0id/xmrigCC
+
+### Todo
+- Finish implementing core features
+- Download xmrigCC binaries from GitHub instead of packaging it
