@@ -1,5 +1,5 @@
 # EasyMiner
-WIP Easy to use miner for https://uplexa.online, using https://github.com/Bendr0id/xmrigCC
+WIP Easy to use miner, using https://github.com/Bendr0id/xmrigCC
 
 ### Todo
 - Finish implementing core features
