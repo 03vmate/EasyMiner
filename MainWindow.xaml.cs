@@ -50,23 +50,34 @@ namespace EasyMiner
 
             StopMining.Visibility = Visibility.Hidden;
 
-            selectedScreen = 3;
-            mineGrid.Visibility = Visibility.Hidden;
+            selectedScreen = 0;
+            mineGrid.Visibility = Visibility.Visible;
             statsGrid.Visibility = Visibility.Hidden;
             helpGrid.Visibility = Visibility.Hidden;
-            settingsGrid.Visibility = Visibility.Visible;
 
-            conf.host = "mine.uplexa.online:1111";
+            conf.host = "de.uplexa.online:1111";
             conf.algo = "cn-extremelite/upx2";
 
             //DEBUG
-            conf.user = "UPX1rv5G6GW1N1Nv9tLQaBZrUDo2g5uTVH9rmiYVWMNHgyuRRaTBBy36d9LmYawvCvR71NUTTAD3MBY8pVKnP7c5AghMbHFsrR";
+            //conf.user = "UPX1rv5G6GW1N1Nv9tLQaBZrUDo2g5uTVH9rmiYVWMNHgyuRRaTBBy36d9LmYawvCvR71NUTTAD3MBY8pVKnP7c5AghMbHFsrR";
             //DEBUG
 
         }
 
         public string FormatHashrate(int hashrate)
         {
+            if(hashrate == 0)
+            {
+                if(miner.proc == null)
+                {
+                    return "Not mining";
+                }
+                else
+                {
+                    return "Waiting...";
+                }
+                
+            }
             if(hashrate < 1000)
             {
                 return hashrate + " H/s";
@@ -83,11 +94,12 @@ namespace EasyMiner
 
         private void startMining_Click(object sender, RoutedEventArgs e)
         {
-            if(conf.user == null)
+            if(addressBox.Text == "Enter you uPlexa Address Here" || addressBox.Text == "")
             {
-                MessageBox.Show("Please set your uPlexa address on the settings tab before mining");
+                MessageBox.Show("Please set your uPlexa address first");
                 return;
             }
+            saveSettings();
             miner.StartMining(conf);
             StopMining.Visibility = Visibility.Visible;
             startMining.Visibility = Visibility.Hidden;
@@ -107,6 +119,20 @@ namespace EasyMiner
             if(miner.proc != null)
             {
                 hr.Content = FormatHashrate(miner.stats.hashrateCurrent);
+                hr60.Content = FormatHashrate(miner.stats.hashrate60s);
+                hr15.Content = FormatHashrate(miner.stats.hashrate15m);
+                acceptedShares.Content = miner.stats.acceptedShares;
+                refusedShares.Content = miner.stats.invalidShares;
+                diff.Content = miner.stats.difficulty;
+            }
+            else
+            {
+                hr.Content = "Not Mining";
+                hr60.Content = "Not Mining";
+                hr15.Content = "Not Mining";
+                acceptedShares.Content = "Not Mining";
+                refusedShares.Content = "Not Mining";
+                diff.Content = "Not Mining";
             }
             
 
@@ -127,7 +153,6 @@ namespace EasyMiner
                 tt_mine.Visibility = c;
                 tt_stats.Visibility = c;
                 tt_help.Visibility = c;
-                tt_settings.Visibility = c;
                 tt_exit.Visibility = c;
             }
             else
@@ -135,7 +160,6 @@ namespace EasyMiner
                 tt_mine.Visibility = v;
                 tt_stats.Visibility = v;
                 tt_help.Visibility = v;
-                tt_settings.Visibility = v;
                 tt_exit.Visibility = v;
             }
         }
@@ -156,29 +180,18 @@ namespace EasyMiner
                     mineGrid.Visibility = Visibility.Visible;
                     statsGrid.Visibility = Visibility.Hidden;
                     helpGrid.Visibility = Visibility.Hidden;
-                    settingsGrid.Visibility = Visibility.Hidden;
                     break;
                 case "Stats":
                     selectedScreen = 1;
                     mineGrid.Visibility = Visibility.Hidden;
                     statsGrid.Visibility = Visibility.Visible;
                     helpGrid.Visibility = Visibility.Hidden;
-                    settingsGrid.Visibility = Visibility.Hidden;
                     break;
                 case "Help":
                     selectedScreen = 2;
                     mineGrid.Visibility = Visibility.Hidden;
                     statsGrid.Visibility = Visibility.Hidden;
                     helpGrid.Visibility = Visibility.Visible;
-                    settingsGrid.Visibility = Visibility.Hidden;
-                    break;
-                case "Settings":
-                    selectedScreen = 3;
-                    mineGrid.Visibility = Visibility.Hidden;
-                    statsGrid.Visibility = Visibility.Hidden;
-                    helpGrid.Visibility = Visibility.Hidden;
-                    settingsGrid.Visibility = Visibility.Visible;
-
                     break;
                 case "Exit":
                     ExitButton();
@@ -186,8 +199,9 @@ namespace EasyMiner
             }
         }
 
-        private void saveSettings_Click(object sender, RoutedEventArgs e)
+        private void saveSettings()
         {
+            workerBox.Text = workerBox.Text.Replace(' ', '_');
             conf.user = addressBox.Text;
             conf.pass = "@" + workerBox.Text;
             conf.threads = threadsBox.SelectedIndex + 1;
@@ -212,7 +226,7 @@ namespace EasyMiner
 
         private void addressBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(addressBox.Text == "UPXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx") addressBox.Text = "";
+            if(addressBox.Text == "Enter you uPlexa Address Here") addressBox.Text = "";
         }
     }
 }
