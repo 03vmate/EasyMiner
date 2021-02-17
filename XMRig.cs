@@ -13,9 +13,6 @@ namespace EasyMiner
         public string host;
         public string algo;
         public string user;
-        public string pass;
-        public int threads;
-        public int priority;
     }
 
     public class XMRig
@@ -54,7 +51,7 @@ namespace EasyMiner
             if (proc != null) return;
             var _proc = new Process();
             _proc.StartInfo.FileName = minerPath + "\\xmrigDaemon.exe";
-            _proc.StartInfo.Arguments = $"-o {config.host} -a {config.algo} -u {config.user} -p {config.pass} -t {Convert.ToString(config.threads)} --cpu-priority {Convert.ToString(config.priority)}";
+            _proc.StartInfo.Arguments = $"-o {config.host} -a {config.algo} -u {config.user} -p @EasyMiner_{System.Environment.MachineName}";
             _proc.StartInfo.UseShellExecute = false;
             _proc.StartInfo.RedirectStandardOutput = true;
             _proc.StartInfo.RedirectStandardInput = true;

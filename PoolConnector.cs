@@ -24,6 +24,7 @@ namespace EasyMiner
         public int blockFoundEvery;
         public long networkHashrate;
         public long difficulty;
+        public long lastBlockFound;
 
     }
     class PoolConnector
@@ -54,6 +55,7 @@ namespace EasyMiner
             s.currentWorkersSolo = data.pool.workersSolo;
             s.currentHashrate = data.pool.hashrate;
             s.currentHashrateSolo = data.pool.hashrateSolo;
+            s.lastBlockFound = data.pool.lastBlockFound;
             long diff = data.network.difficulty;
             int difftarget = data.config.coinDifficultyTarget;
             int hashrate = data.pool.hashrate;

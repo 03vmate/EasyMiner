@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyMiner"
         mc:Ignorable="d"
-        Title="EasyMiner" Height="450" Width="620"
+        Title="EasyMiner" Height="350" Width="620"
         Closing="onClosing" 
         ResizeMode="CanMinimize"
         WindowStyle="SingleBorderWindow"
@@ -35,29 +35,12 @@
         <Grid Background="Black">
             <!-- Main Panel -->
             <Grid HorizontalAlignment="Right" Width="540">
-                <Grid x:Name="mineGrid">
+                <Grid x:Name="mineGrid" Visibility="Hidden">
                     <Grid Height="310" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Grid Width="500px" Height="110px" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 20">
-                            <TextBox x:Name="addressBox" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="Enter you uPlexa Address Here" TextWrapping="Wrap" VerticalAlignment="Top" Width="500" Height="37" Background="#BBBBBB"  PreviewMouseDown="addressBox_PreviewMouseDown"/>
-                            <Grid x:Name="priorityGrid" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="60" Width="150">
-                                <Label Content="Mining CPU Priority" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                                <ComboBox x:Name="priorityBox" HorizontalAlignment="Center" Background="#BBBBBB"  VerticalAlignment="Bottom" Width="120" FontSize="16" Height="28">
-                                    <ComboBoxItem>Low</ComboBoxItem>
-                                    <ComboBoxItem IsSelected="True">Normal</ComboBoxItem>
-                                    <ComboBoxItem>High</ComboBoxItem>
-                                </ComboBox>
-                            </Grid>
-                            <Grid x:Name="threadsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="60" Width="150">
-                                <Label Content="Mining Threads" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                                <ComboBox x:Name="threadsBox" Background="#BBBBBB" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="120" FontSize="16" Height="28">
-                                </ComboBox>
-                            </Grid>
-                            <Grid x:Name="workerGrid" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="60" Width="150">
-                                <Label Content="Worker Name" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
-                                <TextBox x:Name="workerBox" HorizontalAlignment="Center" VerticalContentAlignment="Center" Text="MyWorker" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" Height="28" Background="#BBBBBB"/>
-                            </Grid>
+                        <Grid Width="500px" Height="60px" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 20">
+                            <TextBox x:Name="addressBox" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="Enter you uPlexa Address Here" TextWrapping="Wrap" VerticalAlignment="Center" Width="500" Height="37" Background="#BBBBBB"  PreviewMouseDown="addressBox_PreviewMouseDown"/>
                         </Grid>
-                        <Grid HorizontalAlignment="Center" Width="500" Height="133" VerticalAlignment="Bottom">
+                        <Grid HorizontalAlignment="Center" Width="500" Height="133" VerticalAlignment="Center">
                             <Grid x:Name="hrGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Left" Height="65" Width="165">
                                 <Label Content="Hashrate" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                                 <Label x:Name="hr" Content="Not Mining" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
@@ -84,11 +67,39 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="432,364,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="startMining_Click"/>
-                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="339,364,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="stopMining_Click"/>
-                    <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" Margin="20,364,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="showLog_Click"/>
+                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="432,258,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="startMining_Click"/>
+                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="339,258,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="stopMining_Click"/>
+                    <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" Margin="20,258,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="showLog_Click"/>
                 </Grid>
                 <Grid x:Name="statsGrid">
+                    <Grid HorizontalAlignment="Center" Width="500" Height="220" VerticalAlignment="Top">
+                        <Label Content="Your Stats" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center"></Label>
+                        <Grid x:Name="pendingBalanceGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Left" Height="65" Width="165" Margin="0, 30">
+                            <Label Content="Pending Balance" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <Label x:Name="pendingBalance" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                        </Grid>
+                        <Grid x:Name="totalPaidGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Center" Height="65" Width="165"  Margin="0, 30">
+                            <Label Content="Total Paid" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <Label x:Name="totalPaid" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                        </Grid>
+                        <Grid x:Name="priceGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Right" Height="65" Width="165"  Margin="0, 30">
+                            <Label Content="Round Contribution" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <Label x:Name="roundContrib" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                        </Grid>
+                        <Label Content="Pool Stats" Foreground="White" FontSize="16" HorizontalAlignment="Center" Height="30px" Margin="0,125,0,65"/>
+                        <Grid x:Name="networkGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="65" Width="165">
+                            <Label Content="Network Hashrate" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <Label x:Name="network" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                        </Grid>
+                        <Grid x:Name="lastBlockGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="65" Width="165">
+                            <Label Content="Last Block" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <Label x:Name="lastBlock" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                        </Grid>
+                        <Grid x:Name="effortGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="65" Width="165">
+                            <Label Content="Current Effort" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <Label x:Name="effort" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                        </Grid>
+                    </Grid>
                 </Grid>
                 <Grid x:Name="helpGrid">
                 </Grid>
@@ -127,7 +138,7 @@
                     </Grid>
                     <ListView x:Name="listView" Background="Transparent" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="listView_SelectionChanged">
                         <!-- Mine -->
-                        <ListViewItem x:Name="menuMine" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                        <ListViewItem x:Name="menuMine" HorizontalAlignment="Left" Margin="0,5,0,5" MouseEnter="ListViewItem_MouseEnter">
                             <StackPanel Orientation="Horizontal" Width="256">
                                 <Image Height="24" Width="24" Source="{StaticResource mine}" Margin="12, 0, 0, 0"></Image>
                                 <TextBlock Text="Mining" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
@@ -137,7 +148,7 @@
                             </ListViewItem.ToolTip>
                         </ListViewItem>
                         <!-- Stats -->
-                        <ListViewItem x:Name="menuStats" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                        <ListViewItem x:Name="menuStats" HorizontalAlignment="Left" Margin="0,5,0,5" MouseEnter="ListViewItem_MouseEnter">
                             <StackPanel Orientation="Horizontal" Width="256">
                                 <Image Height="24" Width="24" Source="{StaticResource stats}" Margin="12, 0, 0, 0"></Image>
                                 <TextBlock Text="Stats" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
@@ -147,7 +158,7 @@
                             </ListViewItem.ToolTip>
                         </ListViewItem>
                         <!-- Help -->
-                        <ListViewItem x:Name="menuHelp" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                        <ListViewItem x:Name="menuHelp" HorizontalAlignment="Left" Margin="0,5,0,5" MouseEnter="ListViewItem_MouseEnter">
                             <StackPanel Orientation="Horizontal" Width="256">
                                 <Image Height="24" Width="24" Source="{StaticResource help}" Margin="12, 0, 0, 0"></Image>
                                 <TextBlock Text="Help" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
@@ -157,7 +168,7 @@
                             </ListViewItem.ToolTip>
                         </ListViewItem>
                         <!-- Exit -->
-                        <ListViewItem x:Name="menuExit" HorizontalAlignment="Left" Margin="0,15,0,15" MouseEnter="ListViewItem_MouseEnter">
+                        <ListViewItem x:Name="menuExit" HorizontalAlignment="Left" Margin="0,5,0,5" MouseEnter="ListViewItem_MouseEnter">
                             <StackPanel Orientation="Horizontal" Width="256">
                                 <Image Height="24" Width="24" Source="{StaticResource exit}" Margin="12, 0, 0, 0"></Image>
                                 <TextBlock Text="Exit" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
