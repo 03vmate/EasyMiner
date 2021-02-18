@@ -89,12 +89,7 @@ namespace EasyMiner
 
         private void startMining_Click(object sender, RoutedEventArgs e)
         {
-            if(addressBox.Text == "Enter you uPlexa Address Here" || addressBox.Text == "")
-            {
-                MessageBox.Show("Please set your uPlexa address first");
-                return;
-            }
-            saveSettings();
+            if(!verifyAddr()) return;
             miner.StartMining(conf);
             StopMining.Visibility = Visibility.Visible;
             startMining.Visibility = Visibility.Hidden;
@@ -127,12 +122,23 @@ namespace EasyMiner
 
         private void tick(object sender, EventArgs e)
         {
-            PoolStats s = new PoolStats();
             if(selectedScreen == 1)
             {
-                s = pool.GetPoolStats();
+                PoolStats s;
+                if(verifyAddr(true))
+                {
+                    s = pool.GetPoolStats(conf.user);
+                    pendingBalance.Content = s.pendingBalace + " UPX";
+                    totalPaid.Content = s.totalPaid + " UPX";
+                    roundContrib.Content = s.roundContrib.ToString("0.##") + "%";
+                }
+                else
+                {
+                    s = pool.GetPoolStats();
+                }
                 network.Content = FormatHashrate(s.networkHashrate);
-                lastBlock.Content = FormatTime(DateTimeOffset.Now.ToUnixTimeMilliseconds() - s.lastBlockFound);
+                lastBlock.Content = FormatTime(DateTimeOffset.Now.ToUnixTimeMilliseconds() - s.lastBlockFound) + " ago";
+                effort.Content = Convert.ToByte(s.currentEffort * 100) + "%";
             }
             if(miner.proc != null)
             {
@@ -145,12 +151,12 @@ namespace EasyMiner
             }
             else
             {
-                hr.Content = "Not Mining";
-                hr60.Content = "Not Mining";
-                hr15.Content = "Not Mining";
-                acceptedShares.Content = "Not Mining";
-                refusedShares.Content = "Not Mining";
-                diff.Content = "Not Mining";
+                hr.Content = "-";
+                hr60.Content = "-";
+                hr15.Content = "-";
+                acceptedShares.Content = "-";
+                refusedShares.Content = "-";
+                diff.Content = "-";
             }
 
         }
@@ -216,9 +222,14 @@ namespace EasyMiner
             }
         }
 
-        private void saveSettings()
+        private bool verifyAddr(bool silent = false)
         {
-            conf.user = addressBox.Text;
+            if (conf.user.Length != 98 || conf.user.Substring(0, 4) != "UPX1")
+            {
+                if(!silent) MessageBox.Show("Invalid uPlexa address!");
+                return false;
+            }
+            return true;
         }
 
         private void showLog_Click(object sender, RoutedEventArgs e)
@@ -235,7 +246,12 @@ namespace EasyMiner
 
         private void addressBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(addressBox.Text == "Enter you uPlexa Address Here") addressBox.Text = "";
+            if(addressBox.Text == "Enter your uPlexa Address Here") addressBox.Text = "";
+        }
+
+        private void addressBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            conf.user = addressBox.Text;
         }
     }
 }

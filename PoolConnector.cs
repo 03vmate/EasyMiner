@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -10,6 +11,7 @@ namespace EasyMiner
 {
     struct PoolStats
     {
+        //Pool stats
         public int poolFee;
         public int paymentInterval;
         public int blocksFound;
@@ -21,27 +23,30 @@ namespace EasyMiner
         public long currentHashrate;
         public long currentHashrateSolo;
         public float currentEffort;
-        public int blockFoundEvery;
         public long networkHashrate;
         public long difficulty;
         public long lastBlockFound;
-
+        //User stats
+        public int pendingBalace;
+        public int totalPaid;
+        public float roundContrib;
     }
+
     class PoolConnector
     {
         string host = "https://api.uplexa.online";
         public PoolConnector() { }
 
-        public async Task<string> AsyncGetPoolStats()
+        public async Task<string> AsyncGetStats(string endpoint)
         {
             HttpClient httpClient = new HttpClient();
-            var result = await httpClient.GetAsync(host + "/stats");
+            var result = await httpClient.GetAsync(host + "/" + endpoint);
             return await result.Content.ReadAsStringAsync();
         }
 
-        public PoolStats GetPoolStats()
+        public PoolStats GetPoolStats(string addr = null)
         {
-            Task<string> poolStatFetch = Task.Run<string>(async () => await AsyncGetPoolStats());
+            Task<string> poolStatFetch = Task.Run<string>(async () => await AsyncGetStats("stats"));
             dynamic data = JsonConvert.DeserializeObject<dynamic>(poolStatFetch.Result);
 
             PoolStats s = new PoolStats();
@@ -59,12 +64,30 @@ namespace EasyMiner
             long diff = data.network.difficulty;
             int difftarget = data.config.coinDifficultyTarget;
             int hashrate = data.pool.hashrate;
-            s.currentEffort = Convert.ToSingle(data.pool.roundhashes) / Convert.ToSingle(diff) * 100F;
-            try { s.blockFoundEvery = Convert.ToInt32(diff / difftarget / hashrate * 120F); }
-            catch { s.blockFoundEvery = 0; }
+            float roundHashes = data.pool.roundHashes;
+            s.currentEffort = roundHashes/diff;
             s.networkHashrate = Convert.ToInt64(diff / difftarget);
             s.difficulty = diff;
+            int denom = data.config.denominationUnit;
+            long roundscore = data.pool.roundScore;
 
+            if (addr != null)
+            {
+                poolStatFetch = Task.Run<string>(async () => await AsyncGetStats("stats_address?address=" + addr));
+                data = JsonConvert.DeserializeObject<dynamic>(poolStatFetch.Result);
+
+                int balance = 0;
+                try { balance = data.stats.balance; } catch { }
+                s.pendingBalace = balance / denom;
+
+                int paid = 0;
+                try { paid = data.stats.paid; } catch { }
+                s.totalPaid = paid / denom;
+
+                float roundsc = 0;
+                try { roundsc = data.stats.roundScore; } catch { }
+                s.roundContrib = (roundsc * 100) / roundscore;
+            }
             return s;
         }
     }

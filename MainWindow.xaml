@@ -35,67 +35,80 @@
         <Grid Background="Black">
             <!-- Main Panel -->
             <Grid HorizontalAlignment="Right" Width="540">
-                <Grid x:Name="mineGrid" Visibility="Hidden">
+                <Grid x:Name="mineGrid">
                     <Grid Height="310" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Grid Width="500px" Height="60px" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 20">
-                            <TextBox x:Name="addressBox" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="Enter you uPlexa Address Here" TextWrapping="Wrap" VerticalAlignment="Center" Width="500" Height="37" Background="#BBBBBB"  PreviewMouseDown="addressBox_PreviewMouseDown"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="addressBox" HorizontalAlignment="Center" VerticalContentAlignment="Center"  Text="Enter your uPlexa Address Here" TextWrapping="Wrap" VerticalAlignment="Center" Width="500" Height="37" PreviewMouseDown="addressBox_PreviewMouseDown" TextChanged="addressBox_TextChanged"/>
                         </Grid>
                         <Grid HorizontalAlignment="Center" Width="500" Height="133" VerticalAlignment="Center">
-                            <Grid x:Name="hrGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Left" Height="65" Width="165">
+                           
+                            <Grid x:Name="hrGrid" VerticalAlignment="Top" HorizontalAlignment="Left" Height="65" Width="165">
+                                <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                                 <Label Content="Hashrate" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                                <Label x:Name="hr" Content="Not Mining" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                                <Label x:Name="hr" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                             </Grid>
-                            <Grid x:Name="hr1mGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Center" Height="65" Width="165">
+                            <Grid x:Name="hr1mGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Height="65" Width="165">
+                                <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                                 <Label Content="60s Hashrate" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                                <Label x:Name="hr60" Content="Not Mining" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                                <Label x:Name="hr60" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                             </Grid>
-                            <Grid x:Name="hr15mGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Right" Height="65" Width="165">
+                            <Grid x:Name="hr15mGrid" VerticalAlignment="Top" HorizontalAlignment="Right" Height="65" Width="165">
+                                <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                                 <Label Content="15m Hashrate" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                                <Label x:Name="hr15" Content="Not Mining" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                                <Label x:Name="hr15" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                             </Grid>
-                            <Grid x:Name="acceptedGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="65" Width="165">
+                            <Grid x:Name="acceptedGrid" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="65" Width="165">
+                                <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                                 <Label Content="Accepted Shares" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                                <Label x:Name="acceptedShares" Content="Not Mining" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                                <Label x:Name="acceptedShares" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                             </Grid>
-                            <Grid x:Name="refusedGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="65" Width="165">
+                            <Grid x:Name="refusedGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="65" Width="165">
+                                <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                                 <Label Content="Refused Shares" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                                <Label x:Name="refusedShares" Content="Not Mining" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                                <Label x:Name="refusedShares" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                             </Grid>
-                            <Grid x:Name="diffGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="65" Width="165">
+                            <Grid x:Name="diffGrid" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="65" Width="165">
+                                <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                                 <Label Content="Difficulty" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                                <Label x:Name="diff" Content="Not Mining" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                                <Label x:Name="diff" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="432,258,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="startMining_Click"/>
-                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="339,258,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="stopMining_Click"/>
-                    <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" Margin="20,258,0,0" VerticalAlignment="Top" Background="#444444" Foreground="White" Height="40" Width="88" Click="showLog_Click"/>
+                    <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Left" Margin="432,258,0,0" VerticalAlignment="Top" Height="40" Width="88" Click="startMining_Click" Style="{StaticResource ButtonStyle}"/>
+                    <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Left" Margin="339,258,0,0" VerticalAlignment="Top" Height="40" Width="88" Click="stopMining_Click" Style="{StaticResource ButtonStyle}" />
+                    <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" Margin="20,258,0,0" VerticalAlignment="Top" Height="40" Width="88" Click="showLog_Click" Style="{StaticResource ButtonStyle}"/>
                 </Grid>
-                <Grid x:Name="statsGrid">
+                <Grid x:Name="statsGrid" Visibility="Hidden">
                     <Grid HorizontalAlignment="Center" Width="500" Height="220" VerticalAlignment="Top">
                         <Label Content="Your Stats" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center"></Label>
-                        <Grid x:Name="pendingBalanceGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Left" Height="65" Width="165" Margin="0, 30">
+                        <Grid x:Name="pendingBalanceGrid" VerticalAlignment="Top" HorizontalAlignment="Left" Height="65" Width="165" Margin="0, 30">
+                            <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                             <Label Content="Pending Balance" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                             <Label x:Name="pendingBalance" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                         </Grid>
-                        <Grid x:Name="totalPaidGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Center" Height="65" Width="165"  Margin="0, 30">
+                        <Grid x:Name="totalPaidGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Height="65" Width="165"  Margin="0, 30">
+                            <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                             <Label Content="Total Paid" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                             <Label x:Name="totalPaid" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                         </Grid>
-                        <Grid x:Name="priceGrid" Background="#444444" VerticalAlignment="Top" HorizontalAlignment="Right" Height="65" Width="165"  Margin="0, 30">
+                        <Grid x:Name="priceGrid" VerticalAlignment="Top" HorizontalAlignment="Right" Height="65" Width="165"  Margin="0, 30">
+                            <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                             <Label Content="Round Contribution" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                             <Label x:Name="roundContrib" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                         </Grid>
                         <Label Content="Pool Stats" Foreground="White" FontSize="16" HorizontalAlignment="Center" Height="30px" Margin="0,125,0,65"/>
-                        <Grid x:Name="networkGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="65" Width="165">
+                        <Grid x:Name="networkGrid" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="65" Width="165">
+                            <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                             <Label Content="Network Hashrate" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                             <Label x:Name="network" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                         </Grid>
-                        <Grid x:Name="lastBlockGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="65" Width="165">
+                        <Grid x:Name="lastBlockGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="65" Width="165">
+                            <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                             <Label Content="Last Block" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                             <Label x:Name="lastBlock" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                         </Grid>
-                        <Grid x:Name="effortGrid" Background="#444444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="65" Width="165">
+                        <Grid x:Name="effortGrid" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="65" Width="165">
+                            <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
                             <Label Content="Current Effort" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                             <Label x:Name="effort" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                         </Grid>
@@ -105,10 +118,10 @@
                 </Grid>
             </Grid>
             <!-- Left Panel -->
-            <Grid x:Name="navPanel" HorizontalAlignment="Left" Width="64" Background="#444444">
+            <Grid x:Name="navPanel" HorizontalAlignment="Left" Width="64" Background="#08091b">
                 <StackPanel x:Name="stackPanel">
                     <Grid Height="64">
-                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="73, 0, 0, 0" Text="EasyMiner" Foreground="White" FontSize="24" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="73, 0, 0, 0" Text="EasyMiner" Foreground="#aab0e4" FontSize="24" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center">
                         </TextBlock>
                         <ToggleButton x:Name="toggleButton" Grid.Column="0" HorizontalAlignment="Left" Height="24" Width="24" Margin="20,20,20,20" Style="{StaticResource tb_style}">
                             <ToggleButton.Background>
@@ -119,7 +132,6 @@
                                     <BeginStoryboard>
                                         <Storyboard x:Name="HideStackPanel">
                                             <DoubleAnimation Storyboard.TargetName="navPanel" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="200" To="64" Duration="0:0:0.25">
-
                                             </DoubleAnimation>
                                         </Storyboard>
                                     </BeginStoryboard>
@@ -128,7 +140,6 @@
                                     <BeginStoryboard>
                                         <Storyboard x:Name="ShowStackPanel">
                                             <DoubleAnimation Storyboard.TargetName="navPanel" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="64" To="200" Duration="0:0:0.25">
-
                                             </DoubleAnimation>
                                         </Storyboard>
                                     </BeginStoryboard>
@@ -141,7 +152,7 @@
                         <ListViewItem x:Name="menuMine" HorizontalAlignment="Left" Margin="0,5,0,5" MouseEnter="ListViewItem_MouseEnter">
                             <StackPanel Orientation="Horizontal" Width="256">
                                 <Image Height="24" Width="24" Source="{StaticResource mine}" Margin="12, 0, 0, 0"></Image>
-                                <TextBlock Text="Mining" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                                <TextBlock Text="Mining" Margin="25,0,0,0" Foreground="#7a80b4" FontSize="18"></TextBlock>
                             </StackPanel>
                             <ListViewItem.ToolTip>
                                 <ToolTip x:Name="tt_mine" Content="Mine"></ToolTip>
@@ -151,7 +162,7 @@
                         <ListViewItem x:Name="menuStats" HorizontalAlignment="Left" Margin="0,5,0,5" MouseEnter="ListViewItem_MouseEnter">
                             <StackPanel Orientation="Horizontal" Width="256">
                                 <Image Height="24" Width="24" Source="{StaticResource stats}" Margin="12, 0, 0, 0"></Image>
-                                <TextBlock Text="Stats" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                                <TextBlock Text="Stats" Margin="25,0,0,0" Foreground="#7a80b4" FontSize="18"></TextBlock>
                             </StackPanel>
                             <ListViewItem.ToolTip>
                                 <ToolTip x:Name="tt_stats" Content="Stats"></ToolTip>
@@ -161,7 +172,7 @@
                         <ListViewItem x:Name="menuHelp" HorizontalAlignment="Left" Margin="0,5,0,5" MouseEnter="ListViewItem_MouseEnter">
                             <StackPanel Orientation="Horizontal" Width="256">
                                 <Image Height="24" Width="24" Source="{StaticResource help}" Margin="12, 0, 0, 0"></Image>
-                                <TextBlock Text="Help" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                                <TextBlock Text="Help" Margin="25,0,0,0" Foreground="#7a80b4" FontSize="18"></TextBlock>
                             </StackPanel>
                             <ListViewItem.ToolTip>
                                 <ToolTip x:Name="tt_help" Content="Help"></ToolTip>
@@ -171,7 +182,7 @@
                         <ListViewItem x:Name="menuExit" HorizontalAlignment="Left" Margin="0,5,0,5" MouseEnter="ListViewItem_MouseEnter">
                             <StackPanel Orientation="Horizontal" Width="256">
                                 <Image Height="24" Width="24" Source="{StaticResource exit}" Margin="12, 0, 0, 0"></Image>
-                                <TextBlock Text="Exit" Margin="25,0,0,0" Foreground="White" FontSize="18"></TextBlock>
+                                <TextBlock Text="Exit" Margin="25,0,0,0" Foreground="Red" FontSize="18"></TextBlock>
                             </StackPanel>
                             <ListViewItem.ToolTip>
                                 <ToolTip x:Name="tt_exit" Content="Exit"></ToolTip>
