@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace EasyMiner
             InitializeComponent();
             timer = new DispatcherTimer();
             timer.Tick += tick;
-            timer.Interval = new TimeSpan(0, 0, 5);
+            timer.Interval = new TimeSpan(0, 0, 10);
             timer.Start();
 
             StopMining.Visibility = Visibility.Hidden;
@@ -48,10 +49,14 @@ namespace EasyMiner
             conf.host = "de.uplexa.online:1111";
             conf.algo = "cn-extremelite/upx2";
 
-            //DEBUG
-            //conf.user = "UPX1rv5G6GW1N1Nv9tLQaBZrUDo2g5uTVH9rmiYVWMNHgyuRRaTBBy36d9LmYawvCvR71NUTTAD3MBY8pVKnP7c5AghMbHFsrR";
-            //DEBUG
-
+            if(File.Exists(System.IO.Path.GetTempPath() + @"\easyminer\addr"))
+            {
+                string save = File.ReadAllLines(System.IO.Path.GetTempPath() + @"\easyminer\addr")[0].Trim();
+                if (save.Length == 98 && save.Substring(0, 4) == "UPX1")
+                {
+                    addressBox.Text = save;
+                }
+            }
         }
 
         public string FormatMinerHashrate(int hashrate)
@@ -90,6 +95,7 @@ namespace EasyMiner
         private void startMining_Click(object sender, RoutedEventArgs e)
         {
             if(!verifyAddr()) return;
+            File.WriteAllText(System.IO.Path.GetTempPath() + @"\easyminer\addr", conf.user);
             miner.StartMining(conf);
             StopMining.Visibility = Visibility.Visible;
             startMining.Visibility = Visibility.Hidden;
@@ -122,32 +128,39 @@ namespace EasyMiner
 
         private void tick(object sender, EventArgs e)
         {
-            if(selectedScreen == 1)
+            PoolStats s;
+            if (verifyAddr(true))
             {
-                PoolStats s;
-                if(verifyAddr(true))
-                {
-                    s = pool.GetPoolStats(conf.user);
-                    pendingBalance.Content = s.pendingBalace + " UPX";
-                    totalPaid.Content = s.totalPaid + " UPX";
-                    roundContrib.Content = s.roundContrib.ToString("0.##") + "%";
-                }
-                else
-                {
-                    s = pool.GetPoolStats();
-                }
-                network.Content = FormatHashrate(s.networkHashrate);
-                lastBlock.Content = FormatTime(DateTimeOffset.Now.ToUnixTimeMilliseconds() - s.lastBlockFound) + " ago";
-                effort.Content = Convert.ToByte(s.currentEffort * 100) + "%";
+                s = pool.GetPoolStats(conf.user);
+                pendingBalance.Content = s.pendingBalace + " UPX";
+                totalPaid.Content = s.totalPaid + " UPX";
+                roundContrib.Content = s.roundContrib.ToString("0.##") + "%";
             }
+            else
+            {
+                s = pool.GetPoolStats();
+            }
+            network.Content = FormatHashrate(s.networkHashrate);
+            lastBlock.Content = FormatTime(DateTimeOffset.Now.ToUnixTimeMilliseconds() - s.lastBlockFound) + " ago";
+            effort.Content = Convert.ToByte(s.currentEffort * 100) + "%";
+
             if(miner.proc != null)
             {
                 hr.Content = FormatMinerHashrate(miner.stats.hashrateCurrent);
                 hr60.Content = FormatMinerHashrate(miner.stats.hashrate60s);
                 hr15.Content = FormatMinerHashrate(miner.stats.hashrate15m);
                 acceptedShares.Content = miner.stats.acceptedShares;
-                refusedShares.Content = miner.stats.invalidShares;
                 diff.Content = miner.stats.difficulty;
+
+                if(miner.stats.hashrateCurrent != 0)
+                {
+                    long networkHashrate = s.avgdiff / s.coinDiffTarget;
+                    float share = networkHashrate / miner.stats.hashrateCurrent;
+                    int dailyBlocks = 86400 / s.coinDiffTarget;
+                    int blockReward = s.lastReward / s.denom;
+                    int estEarn = Convert.ToInt32(blockReward * dailyBlocks / share);
+                    earnings.Content = estEarn + " UPX";
+                }
             }
             else
             {
@@ -155,10 +168,9 @@ namespace EasyMiner
                 hr60.Content = "-";
                 hr15.Content = "-";
                 acceptedShares.Content = "-";
-                refusedShares.Content = "-";
+                earnings.Content = "-";
                 diff.Content = "-";
             }
-
         }
 
         private void onClosing(object sender, EventArgs e)

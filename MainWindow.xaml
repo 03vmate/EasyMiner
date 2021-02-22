@@ -62,10 +62,10 @@
                                 <Label Content="Accepted Shares" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                                 <Label x:Name="acceptedShares" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                             </Grid>
-                            <Grid x:Name="refusedGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="65" Width="165">
+                            <Grid x:Name="earningsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="65" Width="165">
                                 <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>
-                                <Label Content="Refused Shares" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                                <Label x:Name="refusedShares" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
+                                <Label Content="Approx. 24h Earnings" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                                <Label x:Name="earnings" Content="-" Foreground="White" FontSize="22" VerticalAlignment="Bottom" HorizontalAlignment="Center"></Label>
                             </Grid>
                             <Grid x:Name="diffGrid" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="65" Width="165">
                                 <Border Background="#222222" BorderBrush="#222222" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"></Border>

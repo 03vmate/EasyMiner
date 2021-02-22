@@ -59,35 +59,5 @@ namespace EasyMiner.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] WinRing0x64 {
-            get {
-                object obj = ResourceManager.GetObject("WinRing0x64", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] xmrigDaemon {
-            get {
-                object obj = ResourceManager.GetObject("xmrigDaemon", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] xmrigMiner {
-            get {
-                object obj = ResourceManager.GetObject("xmrigMiner", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

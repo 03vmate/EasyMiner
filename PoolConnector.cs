@@ -26,10 +26,15 @@ namespace EasyMiner
         public long networkHashrate;
         public long difficulty;
         public long lastBlockFound;
+        public long avgdiff;
+        public int coinDiffTarget;
+        public int denom;
+        public int lastReward;
         //User stats
         public int pendingBalace;
         public int totalPaid;
         public float roundContrib;
+        
     }
 
     class PoolConnector
@@ -48,8 +53,18 @@ namespace EasyMiner
         {
             Task<string> poolStatFetch = Task.Run<string>(async () => await AsyncGetStats("stats"));
             dynamic data = JsonConvert.DeserializeObject<dynamic>(poolStatFetch.Result);
+            long avgdiff = 0;
+            int diffcount = 0;
+            foreach(var asd in data.charts.difficulty)
+            {
+                avgdiff += asd.ToObject<long[]>()[1];
+                diffcount++;
+            }
 
             PoolStats s = new PoolStats();
+            s.lastReward = data.lastblock.reward;
+            s.coinDiffTarget = data.config.coinDifficultyTarget;
+            s.avgdiff = avgdiff / diffcount;
             s.poolFee = data.config.fee;
             s.paymentInterval = data.config.paymentsInterval;
             s.blocksFound = data.pool.totalBlocks;
@@ -69,6 +84,7 @@ namespace EasyMiner
             s.networkHashrate = Convert.ToInt64(diff / difftarget);
             s.difficulty = diff;
             int denom = data.config.denominationUnit;
+            s.denom = denom;
             long roundscore = data.pool.roundScore;
 
             if (addr != null)

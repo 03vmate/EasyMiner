@@ -118,13 +118,4 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="WinRing0x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WinRing0x64.sys;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="xmrigDaemon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\xmrigDaemon.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="xmrigMiner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\xmrigMiner.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
 </root>

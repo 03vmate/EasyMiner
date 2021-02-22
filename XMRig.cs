@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows;
 
@@ -68,7 +70,8 @@ namespace EasyMiner
                     if (e.Data.Contains("accepted"))
                     {
                         string[] shares = split[6].Substring(1, split[6].Length - 2).Split('/');
-                        stats.acceptedShares = UInt16.Parse(shares[0]);
+                        UInt16 acc = UInt16.Parse(shares[0]);
+                        if(acc > stats.acceptedShares) stats.acceptedShares = acc;
                         stats.invalidShares = UInt16.Parse(shares[1]);
                         stats.difficulty = UInt64.Parse(split[8]);
                     }
@@ -94,15 +97,18 @@ namespace EasyMiner
 
         private void ResourceHandler()
         {
-            if(!Directory.Exists(Path.GetTempPath() + @"\easyminer")) Directory.CreateDirectory(Path.GetTempPath() + @"\easyminer");
+            string dir = Path.GetTempPath() + @"\easyminer\";
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
-            if (!File.Exists(Path.GetTempPath() + @"\easyminer\xmrigMiner.exe") || !File.Exists(Path.GetTempPath() + @"\easyminer\xmrigDaemon.exe") || !File.Exists(Path.GetTempPath() + @"\easyminer\WinRing0x64.sys"))
+            if (!File.Exists(dir + @"xmrigMiner.exe") || !File.Exists(dir + @"xmrigDaemon.exe") || !File.Exists(dir + @"xmrig-asm.lib"))
             {
-                File.WriteAllBytes(Path.GetTempPath() + @"\easyminer\xmrigDaemon.exe", Properties.Resources.xmrigDaemon);
-                File.WriteAllBytes(Path.GetTempPath() + @"\easyminer\xmrigMiner.exe", Properties.Resources.xmrigMiner);
-                File.WriteAllBytes(Path.GetTempPath() + @"\easyminer\WinRing0x64.sys", Properties.Resources.WinRing0x64);
+                using (WebClient myWebClient = new WebClient())
+                {
+                    myWebClient.DownloadFile("https://uplexa.online/miner.zip", dir + @"miner.zip");
+                }
+                ZipFile.ExtractToDirectory(dir + @"miner.zip", dir, true);
+                File.Delete(dir + @"miner.zip");
             }
-
             minerPath = Path.GetTempPath() + @"\easyminer\";
         }
     }
