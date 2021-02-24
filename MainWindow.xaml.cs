@@ -65,9 +65,9 @@ namespace EasyMiner
                     }
                 }
             }
-            catch(Exception e)
+            catch(Exception err)
             {
-                MessageBox.Show("Error reading saved data: " + e.Message);
+                MessageBox.Show("Error in cstr: " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
             }
             
 
@@ -94,9 +94,9 @@ namespace EasyMiner
                     System.Threading.Thread.Sleep(5000);
                 }
             }
-            catch(Exception e)
+            catch(Exception err)
             {
-                MessageBox.Show("Error updating pool stats: " + e.Message);
+                MessageBox.Show("Error in httpThread(): " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
             }
         }
 
@@ -143,9 +143,9 @@ namespace EasyMiner
                 StopMining.Visibility = Visibility.Visible;
                 startMining.Visibility = Visibility.Hidden;
             }
-            catch (Exception er)
+            catch (Exception err)
             {
-                MessageBox.Show("Error: " + er.Message);
+                MessageBox.Show("Error in startMining(): " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
             }
         }
 
@@ -189,14 +189,17 @@ namespace EasyMiner
                             acceptedShares.Content = miner.stats.acceptedShares;
                             diff.Content = miner.stats.difficulty;
 
-                            if (miner.stats.hashrateCurrent != 0)
+                            if (miner.stats.hashrateCurrent != 0 && poolStats.coinDiffTarget != 0 && poolStats.denom != 0)
                             {
                                 long networkHashrate = poolStats.avgdiff / poolStats.coinDiffTarget;
                                 float share = networkHashrate / miner.stats.hashrateCurrent;
                                 int dailyBlocks = 86400 / poolStats.coinDiffTarget;
                                 int blockReward = poolStats.lastReward / poolStats.denom;
-                                int estEarn = Convert.ToInt32(blockReward * dailyBlocks / share);
-                                earnings.Content = estEarn + " UPX";
+                                if(share != 0)
+                                {
+                                    int estEarn = Convert.ToInt32(blockReward * dailyBlocks / share);
+                                    earnings.Content = estEarn + " UPX";
+                                }
                             }
                         }
                         else
@@ -224,7 +227,7 @@ namespace EasyMiner
             }
             catch(Exception err)
             {
-                MessageBox.Show("Error: " + err.Message);
+                MessageBox.Show("Error in tick(): " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
             }
         }
 
@@ -290,7 +293,7 @@ namespace EasyMiner
             }
             catch(Exception err)
             {
-                MessageBox.Show("Error: " + err.Message);
+                MessageBox.Show("Error in showLog(): " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
             }
         }
 
