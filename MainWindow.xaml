@@ -110,11 +110,9 @@
                             <Italic>uplexa-gui</Italic>
                             <LineBreak></LineBreak>
                             <LineBreak></LineBreak>
-                            <Run FontWeight="Bold" FontSize="14" Text="Is there a way to see more stats?"/>
+                            <Run FontWeight="Bold" FontSize="14" Text="Mining doesn't work"/>
                             <LineBreak></LineBreak>
-                            <Run FontSize="11" Text="Go to" />
-                            <Italic>uplexa.online</Italic>
-                            <Run FontSize="11" Text=", click on the 'My Workers' page, and enter your address."/>
+                            <Run FontSize="11" Text="Make sure that your antivirus and firewall doesn't block the miner."/>
                             <LineBreak></LineBreak>
                             <LineBreak></LineBreak>
                             <Run FontWeight="Bold" FontSize="14" Text="I've got some other issue not mentioned here"/>
