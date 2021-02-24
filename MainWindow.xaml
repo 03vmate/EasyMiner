@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EasyMiner"
+        xmlns:local="clr-namespace:EasyMiner" xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="EasyMiner" Height="285" Width="605"
         Closing="onClosing" 
@@ -19,12 +19,12 @@
             <Grid HorizontalAlignment="Right" Width="540">
                 <Grid VerticalAlignment="Top" Height="30">
                     <Grid Height="30" Width="65" HorizontalAlignment="Right">
-                        <Button Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Content="X" Background="#08091b" Style="{StaticResource ButtonStyle}"></Button>
-                        <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Content="_" Background="#08091b" Style="{StaticResource ButtonStyle}"></Button>
+                        <Button Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Content="X" Background="#08091b" Style="{StaticResource ButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click"></Button>
+                        <Button Width="30" Height="30" HorizontalAlignment="Left" FontSize="22" VerticalAlignment="Center" Content="-" Background="#08091b" Style="{StaticResource ButtonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Button_Click_1"></Button>
                     </Grid>
                     <TextBlock Text="Official uPlexa Pool Miner" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22"></TextBlock>
                 </Grid>
-                <Grid x:Name="mineGrid">
+                <Grid x:Name="mineGrid" Visibility="Visible">
                     <Grid Height="240" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="12">
                         <Grid Width="500px" Height="40px" HorizontalAlignment="Center" VerticalAlignment="Top" >
                             <TextBox Style="{StaticResource TextBoxStyle}" x:Name="addressBox" HorizontalAlignment="Center" VerticalContentAlignment="Center" TextAlignment="Center" Text="Enter your uPlexa Address Here" TextWrapping="Wrap" VerticalAlignment="Center" Width="500" Height="37" PreviewMouseDown="addressBox_PreviewMouseDown" TextChanged="addressBox_TextChanged"/>
@@ -57,11 +57,11 @@
                         </Grid>
                         <Button x:Name="startMining" Content="Start Mining" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="100" Click="startMining_Click" Style="{StaticResource ButtonStyle}" Background="#333333"/>
                         <Button x:Name="StopMining" Content="Stop Mining" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" Width="100" Click="stopMining_Click" Style="{StaticResource ButtonStyle}" Background="#333333" />
-                        <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="60" Click="showLog_Click"  Style="{StaticResource ButtonStyle}" Background="#333333"/>
+                        <Button x:Name="showOutput" Content="Show Log" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="71" Click="showLog_Click"  Style="{StaticResource ButtonStyle}" Background="#333333"/>
                     </Grid>
                 </Grid>
                 <Grid x:Name="statsGrid" Visibility="Hidden">
-                    <Grid HorizontalAlignment="Center" Width="500" Height="220" VerticalAlignment="Top">
+                    <Grid HorizontalAlignment="Center" Width="500" Height="220" VerticalAlignment="Center">
                         <Label Content="Your Stats" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center"></Label>
                         <Grid x:Name="pendingBalanceGrid" VerticalAlignment="Top" HorizontalAlignment="Left" Height="65" Width="165" Margin="0, 30" Background="#08091b">
                             <Label Content="Pending Balance" Foreground="White" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
@@ -90,7 +90,42 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid x:Name="helpGrid">
+                <Grid x:Name="helpGrid" Visibility="Hidden">
+                    <TextBlock Width="540" Height="240" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White">
+                        <TextBlock.Inlines>
+                            <Run FontWeight="Bold" FontSize="14" Text="I've been mining for some time but haven't received any money"/>
+                            <LineBreak></LineBreak>
+                            <Run FontSize="11" Text="You need to mine at least 100 UPX before getting paid. Check your pending balance on the stats tab." />
+                            <LineBreak></LineBreak>
+                            <LineBreak></LineBreak>
+                            <Run FontWeight="Bold" FontSize="14" Text="Mining keeps going after I close this window"/>
+                            <LineBreak></LineBreak>
+                            <Run FontSize="11" Text="Make sure to use the 'X' button in the top right, or the red button in the bottom left to close the miner." />
+                            <LineBreak></LineBreak>
+                            <LineBreak></LineBreak>
+                            <Run FontWeight="Bold" FontSize="14" Text="What is the uPlexa Address thing I have to enter? I don't have one."/>
+                            <LineBreak></LineBreak>
+                            <Run FontSize="11" Text="You need to get a uPlexa wallet, using something like"/>
+                            <Italic>wallet.uplexa.com</Italic> or
+                            <Italic>uplexa-gui</Italic>
+                            <LineBreak></LineBreak>
+                            <LineBreak></LineBreak>
+                            <Run FontWeight="Bold" FontSize="14" Text="Is there a way to see more stats?"/>
+                            <LineBreak></LineBreak>
+                            <Run FontSize="11" Text="Go to" />
+                            <Italic>uplexa.online</Italic>
+                            <Run FontSize="11" Text=", click on the 'My Workers' page, and enter your address."/>
+                            <LineBreak></LineBreak>
+                            <LineBreak></LineBreak>
+                            <Run FontWeight="Bold" FontSize="14" Text="I've got some other issue not mentioned here"/>
+                            <LineBreak></LineBreak>
+                            <Run FontSize="11" Text="Join the uPlexa Discord and message us. You can find the invite link on" />
+                            <Italic>uplexa.online</Italic>
+                            <Run FontSize="11" Text="in the sidebar." />
+                            <LineBreak></LineBreak>
+                            <LineBreak></LineBreak>
+                        </TextBlock.Inlines>
+                    </TextBlock>
                 </Grid>
             </Grid>
             <!-- Left Panel -->
