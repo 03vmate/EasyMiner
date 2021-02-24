@@ -54,14 +54,22 @@ namespace EasyMiner
             conf.host = "de.uplexa.online:1111";
             conf.algo = "cn-extremelite/upx2";
 
-            if(File.Exists(System.IO.Path.GetTempPath() + @"\easyminer\addr"))
+            try
             {
-                string save = File.ReadAllLines(System.IO.Path.GetTempPath() + @"\easyminer\addr")[0].Trim();
-                if (save.Length == 98 && save.Substring(0, 4) == "UPX1")
+                if (File.Exists(System.IO.Path.GetTempPath() + @"\easyminer\addr"))
                 {
-                    addressBox.Text = save;
+                    string save = File.ReadAllLines(System.IO.Path.GetTempPath() + @"\easyminer\addr")[0].Trim();
+                    if (save.Length == 98 && save.Substring(0, 4) == "UPX1")
+                    {
+                        addressBox.Text = save;
+                    }
                 }
             }
+            catch(Exception e)
+            {
+                MessageBox.Show("Error reading saved data: " + e.Message);
+            }
+            
 
             HttpThread = new Thread(new ThreadStart(httpThread));
             HttpThread.Start();
@@ -69,19 +77,26 @@ namespace EasyMiner
 
         private void httpThread()
         {
-            while(!exiting)
+            try
             {
-                if (verifyAddr(true))
+                while (!exiting)
                 {
-                    poolStats = pool.GetPoolStats(conf.user);
-                    poolStatsContainsUserdata = true;
+                    if (verifyAddr(true))
+                    {
+                        poolStats = pool.GetPoolStats(conf.user);
+                        poolStatsContainsUserdata = true;
+                    }
+                    else
+                    {
+                        poolStats = pool.GetPoolStats();
+                        poolStatsContainsUserdata = false;
+                    }
+                    System.Threading.Thread.Sleep(5000);
                 }
-                else
-                {
-                    poolStats = pool.GetPoolStats();
-                    poolStatsContainsUserdata = false;
-                }
-                System.Threading.Thread.Sleep(5000);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Error updating pool stats: " + e.Message);
             }
         }
 
@@ -120,11 +135,18 @@ namespace EasyMiner
 
         private void startMining_Click(object sender, RoutedEventArgs e)
         {
-            if(!verifyAddr()) return;
-            File.WriteAllText(System.IO.Path.GetTempPath() + @"\easyminer\addr", conf.user);
-            miner.StartMining(conf);
-            StopMining.Visibility = Visibility.Visible;
-            startMining.Visibility = Visibility.Hidden;
+            try
+            {
+                if (!verifyAddr()) return;
+                File.WriteAllText(System.IO.Path.GetTempPath() + @"\easyminer\addr", conf.user);
+                miner.StartMining(conf);
+                StopMining.Visibility = Visibility.Visible;
+                startMining.Visibility = Visibility.Hidden;
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show("Error: " + er.Message);
+            }
         }
 
         public void stopMining_Click(object sender, RoutedEventArgs e)
@@ -154,48 +176,55 @@ namespace EasyMiner
 
         private void tick(object sender, EventArgs e)
         {
-            switch(selectedScreen)
+            try
             {
-                case 0:
-                    if (miner.proc != null)
-                    {
-                        hr.Content = FormatMinerHashrate(miner.stats.hashrateCurrent);
-                        hr60.Content = FormatMinerHashrate(miner.stats.hashrate60s);
-                        hr15.Content = FormatMinerHashrate(miner.stats.hashrate15m);
-                        acceptedShares.Content = miner.stats.acceptedShares;
-                        diff.Content = miner.stats.difficulty;
-
-                        if (miner.stats.hashrateCurrent != 0)
+                switch (selectedScreen)
+                {
+                    case 0:
+                        if (miner.proc != null)
                         {
-                            long networkHashrate = poolStats.avgdiff / poolStats.coinDiffTarget;
-                            float share = networkHashrate / miner.stats.hashrateCurrent;
-                            int dailyBlocks = 86400 / poolStats.coinDiffTarget;
-                            int blockReward = poolStats.lastReward / poolStats.denom;
-                            int estEarn = Convert.ToInt32(blockReward * dailyBlocks / share);
-                            earnings.Content = estEarn + " UPX";
+                            hr.Content = FormatMinerHashrate(miner.stats.hashrateCurrent);
+                            hr60.Content = FormatMinerHashrate(miner.stats.hashrate60s);
+                            hr15.Content = FormatMinerHashrate(miner.stats.hashrate15m);
+                            acceptedShares.Content = miner.stats.acceptedShares;
+                            diff.Content = miner.stats.difficulty;
+
+                            if (miner.stats.hashrateCurrent != 0)
+                            {
+                                long networkHashrate = poolStats.avgdiff / poolStats.coinDiffTarget;
+                                float share = networkHashrate / miner.stats.hashrateCurrent;
+                                int dailyBlocks = 86400 / poolStats.coinDiffTarget;
+                                int blockReward = poolStats.lastReward / poolStats.denom;
+                                int estEarn = Convert.ToInt32(blockReward * dailyBlocks / share);
+                                earnings.Content = estEarn + " UPX";
+                            }
                         }
-                    }
-                    else
-                    {
-                        hr.Content = "-";
-                        hr60.Content = "-";
-                        hr15.Content = "-";
-                        acceptedShares.Content = "-";
-                        earnings.Content = "-";
-                        diff.Content = "-";
-                    }
-                    break;
-                case 1:
-                    if (verifyAddr(true) && poolStatsContainsUserdata)
-                    {
-                        pendingBalance.Content = poolStats.pendingBalace + " UPX";
-                        totalPaid.Content = poolStats.totalPaid + " UPX";
-                        roundContrib.Content = poolStats.roundContrib.ToString("0.##") + "%";
-                    }
-                    network.Content = FormatHashrate(poolStats.networkHashrate);
-                    lastBlock.Content = FormatTime(DateTimeOffset.Now.ToUnixTimeMilliseconds() - poolStats.lastBlockFound) + " ago";
-                    effort.Content = Convert.ToByte(poolStats.currentEffort * 100) + "%";
-                    break;
+                        else
+                        {
+                            hr.Content = "-";
+                            hr60.Content = "-";
+                            hr15.Content = "-";
+                            acceptedShares.Content = "-";
+                            earnings.Content = "-";
+                            diff.Content = "-";
+                        }
+                        break;
+                    case 1:
+                        if (verifyAddr(true) && poolStatsContainsUserdata)
+                        {
+                            pendingBalance.Content = poolStats.pendingBalace + " UPX";
+                            totalPaid.Content = poolStats.totalPaid + " UPX";
+                            roundContrib.Content = poolStats.roundContrib.ToString("0.##") + "%";
+                        }
+                        network.Content = FormatHashrate(poolStats.networkHashrate);
+                        lastBlock.Content = FormatTime(DateTimeOffset.Now.ToUnixTimeMilliseconds() - poolStats.lastBlockFound) + " ago";
+                        effort.Content = Convert.ToByte(poolStats.currentEffort * 100) + "%";
+                        break;
+                }
+            }
+            catch(Exception err)
+            {
+                MessageBox.Show("Error: " + err.Message);
             }
         }
 
@@ -253,9 +282,16 @@ namespace EasyMiner
 
         private void showLog_Click(object sender, RoutedEventArgs e)
         {
-            xmrigOutput _xmrigOutput = new xmrigOutput();
-            _xmrigOutput.textblock.Text = miner.minerOutput;
-            _xmrigOutput.Show();
+            try
+            {
+                xmrigOutput _xmrigOutput = new xmrigOutput();
+                _xmrigOutput.textblock.Text = miner.minerOutput;
+                _xmrigOutput.Show();
+            }
+            catch(Exception err)
+            {
+                MessageBox.Show("Error: " + err.Message);
+            }
         }
 
         public string getXmrigOutput()

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EasyMiner
 {
@@ -51,60 +52,68 @@ namespace EasyMiner
 
         public PoolStats GetPoolStats(string addr = null)
         {
-            Task<string> poolStatFetch = Task.Run<string>(async () => await AsyncGetStats("stats"));
-            dynamic data = JsonConvert.DeserializeObject<dynamic>(poolStatFetch.Result);
-            long avgdiff = 0;
-            int diffcount = 0;
-            foreach(var asd in data.charts.difficulty)
+            try
             {
-                avgdiff += asd.ToObject<long[]>()[1];
-                diffcount++;
+                Task<string> poolStatFetch = Task.Run<string>(async () => await AsyncGetStats("stats"));
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(poolStatFetch.Result);
+                long avgdiff = 0;
+                int diffcount = 0;
+                foreach (var asd in data.charts.difficulty)
+                {
+                    avgdiff += asd.ToObject<long[]>()[1];
+                    diffcount++;
+                }
+
+                PoolStats s = new PoolStats();
+                s.lastReward = data.lastblock.reward;
+                s.coinDiffTarget = data.config.coinDifficultyTarget;
+                s.avgdiff = avgdiff / diffcount;
+                s.poolFee = data.config.fee;
+                s.paymentInterval = data.config.paymentsInterval;
+                s.blocksFound = data.pool.totalBlocks;
+                s.blocksFoundSolo = data.pool.totalBlocksSolo;
+                s.currentMiners = data.pool.miners;
+                s.currentMinersSolo = data.pool.minersSolo;
+                s.currentWorkers = data.pool.workers;
+                s.currentWorkersSolo = data.pool.workersSolo;
+                s.currentHashrate = data.pool.hashrate;
+                s.currentHashrateSolo = data.pool.hashrateSolo;
+                s.lastBlockFound = data.pool.lastBlockFound;
+                long diff = data.network.difficulty;
+                int difftarget = data.config.coinDifficultyTarget;
+                int hashrate = data.pool.hashrate;
+                float roundHashes = data.pool.roundHashes;
+                s.currentEffort = roundHashes / diff;
+                s.networkHashrate = Convert.ToInt64(diff / difftarget);
+                s.difficulty = diff;
+                int denom = data.config.denominationUnit;
+                s.denom = denom;
+                long roundscore = data.pool.roundScore;
+
+                if (addr != null)
+                {
+                    poolStatFetch = Task.Run<string>(async () => await AsyncGetStats("stats_address?address=" + addr));
+                    data = JsonConvert.DeserializeObject<dynamic>(poolStatFetch.Result);
+
+                    int balance = 0;
+                    try { balance = data.stats.balance; } catch { }
+                    s.pendingBalace = balance / denom;
+
+                    int paid = 0;
+                    try { paid = data.stats.paid; } catch { }
+                    s.totalPaid = paid / denom;
+
+                    float roundsc = 0;
+                    try { roundsc = data.stats.roundScore; } catch { }
+                    s.roundContrib = (roundsc * 100) / roundscore;
+                }
+                return s;
             }
-
-            PoolStats s = new PoolStats();
-            s.lastReward = data.lastblock.reward;
-            s.coinDiffTarget = data.config.coinDifficultyTarget;
-            s.avgdiff = avgdiff / diffcount;
-            s.poolFee = data.config.fee;
-            s.paymentInterval = data.config.paymentsInterval;
-            s.blocksFound = data.pool.totalBlocks;
-            s.blocksFoundSolo = data.pool.totalBlocksSolo;
-            s.currentMiners = data.pool.miners;
-            s.currentMinersSolo = data.pool.minersSolo;
-            s.currentWorkers = data.pool.workers;
-            s.currentWorkersSolo = data.pool.workersSolo;
-            s.currentHashrate = data.pool.hashrate;
-            s.currentHashrateSolo = data.pool.hashrateSolo;
-            s.lastBlockFound = data.pool.lastBlockFound;
-            long diff = data.network.difficulty;
-            int difftarget = data.config.coinDifficultyTarget;
-            int hashrate = data.pool.hashrate;
-            float roundHashes = data.pool.roundHashes;
-            s.currentEffort = roundHashes/diff;
-            s.networkHashrate = Convert.ToInt64(diff / difftarget);
-            s.difficulty = diff;
-            int denom = data.config.denominationUnit;
-            s.denom = denom;
-            long roundscore = data.pool.roundScore;
-
-            if (addr != null)
+            catch(Exception e)
             {
-                poolStatFetch = Task.Run<string>(async () => await AsyncGetStats("stats_address?address=" + addr));
-                data = JsonConvert.DeserializeObject<dynamic>(poolStatFetch.Result);
-
-                int balance = 0;
-                try { balance = data.stats.balance; } catch { }
-                s.pendingBalace = balance / denom;
-
-                int paid = 0;
-                try { paid = data.stats.paid; } catch { }
-                s.totalPaid = paid / denom;
-
-                float roundsc = 0;
-                try { roundsc = data.stats.roundScore; } catch { }
-                s.roundContrib = (roundsc * 100) / roundscore;
+                MessageBox.Show("Error connecting to pool: " + e.Message);
             }
-            return s;
+            return new PoolStats();
         }
     }
 }
