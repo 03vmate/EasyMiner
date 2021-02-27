@@ -39,6 +39,7 @@ namespace EasyMiner
         public MainWindow()
         {
             InitializeComponent();
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             timer = new DispatcherTimer();
             timer.Tick += tick;
             timer.Interval = new TimeSpan(0, 0, 1);
@@ -73,6 +74,12 @@ namespace EasyMiner
 
             HttpThread = new Thread(new ThreadStart(httpThread));
             HttpThread.Start();
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception err = e.ExceptionObject as Exception;
+            MessageBox.Show("Error in cstr: " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
         }
 
         private void httpThread()
