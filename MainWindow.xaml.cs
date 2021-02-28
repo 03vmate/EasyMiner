@@ -104,6 +104,14 @@ namespace EasyMiner
                     string latesthash = client.DownloadString("https://uplexa.online/easyminer_latestver");
                     if (latesthash != hash)
                     {
+                        if (File.Exists(System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe"))
+                        {
+                            File.Delete(System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe");
+                        }
+                        using (var webcl = new WebClient())
+                        {
+                            webcl.DownloadFile("https://uplexa.online/EasyMinerUpdater.exe", System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe");
+                        }
                         Process updater = new Process();
                         updater.StartInfo.FileName = System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe";
                         updater.StartInfo.Arguments = $" {currentExecutablePath}";
