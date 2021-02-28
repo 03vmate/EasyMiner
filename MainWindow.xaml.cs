@@ -30,7 +30,7 @@ namespace EasyMiner
     public partial class MainWindow : Window
     {
 
-        string VERSION = "5";
+        string VERSION = "6";
 
         public XMRig miner = new XMRig();
         XMRigConfig conf = new XMRigConfig();
