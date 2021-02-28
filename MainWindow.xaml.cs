@@ -29,6 +29,9 @@ namespace EasyMiner
 
     public partial class MainWindow : Window
     {
+
+        string VERSION = "4";
+
         public XMRig miner = new XMRig();
         XMRigConfig conf = new XMRigConfig();
         PoolConnector pool = new PoolConnector();
@@ -79,6 +82,8 @@ namespace EasyMiner
 
             HttpThread = new Thread(new ThreadStart(httpThread));
             HttpThread.Start();
+
+            versionBox.Content = VERSION;
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -90,34 +95,24 @@ namespace EasyMiner
 
         private void autoUpdater()
         {
-            string currentExecutablePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            byte[] executable = File.ReadAllBytes(currentExecutablePath);
-            string hash = GetSHA256(executable);
-            if(File.Exists(Directory.GetCurrentDirectory() + "\\easyMinerDebug.txt"))
+            using (WebClient client = new WebClient())
             {
-                File.WriteAllText(Directory.GetCurrentDirectory() + "\\easyMinerDebug.txt", hash);
-            }
-            else
-            {
-                using (WebClient client = new WebClient())
+                string latestver = client.DownloadString("https://uplexa.online/easyminer_latestver").Trim();
+                if (latestver != VERSION)
                 {
-                    string latesthash = client.DownloadString("https://uplexa.online/easyminer_latestver");
-                    if (latesthash != hash)
+                    if (File.Exists(System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe"))
                     {
-                        if (File.Exists(System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe"))
-                        {
-                            File.Delete(System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe");
-                        }
-                        using (var webcl = new WebClient())
-                        {
-                            webcl.DownloadFile("https://uplexa.online/EasyMinerUpdater.exe", System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe");
-                        }
-                        Process updater = new Process();
-                        updater.StartInfo.FileName = System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe";
-                        updater.StartInfo.Arguments = $" {currentExecutablePath}";
-                        updater.Start();
-                        ExitButton();
+                        File.Delete(System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe");
                     }
+                    using (var webcl = new WebClient())
+                    {
+                        webcl.DownloadFile("https://uplexa.online/EasyMinerUpdater.exe", System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe");
+                    }
+                    Process updater = new Process();
+                    updater.StartInfo.FileName = System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe";
+                    updater.StartInfo.Arguments = $" {System.AppDomain.CurrentDomain.FriendlyName}";
+                    updater.Start();
+                    ExitButton();
                 }
             }
         }

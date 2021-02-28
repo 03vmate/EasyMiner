@@ -90,7 +90,7 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid x:Name="helpGrid" Visibility="Hidden">
+                <Grid x:Name="helpGrid" Visibility="Visible">
                     <TextBlock Width="540" Height="240" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="White">
                         <TextBlock.Inlines>
                             <Run FontWeight="Bold" FontSize="14" Text="I've been mining for some time but haven't received any money"/>
@@ -124,6 +124,7 @@
                             <LineBreak></LineBreak>
                         </TextBlock.Inlines>
                     </TextBlock>
+                    <Label x:Name="versionBox" Content="" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Gray"></Label>
                 </Grid>
             </Grid>
             <!-- Left Panel -->
