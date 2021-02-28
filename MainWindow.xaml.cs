@@ -228,7 +228,7 @@ namespace EasyMiner
                         }
                         network.Content = FormatHashrate(poolStats.networkHashrate);
                         lastBlock.Content = FormatTime(DateTimeOffset.Now.ToUnixTimeMilliseconds() - poolStats.lastBlockFound) + " ago";
-                        effort.Content = Convert.ToByte(poolStats.currentEffort * 100) + "%";
+                        effort.Content = Convert.ToUInt16(poolStats.currentEffort * 100) + "%";
                         break;
                 }
             }
