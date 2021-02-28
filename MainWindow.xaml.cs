@@ -30,7 +30,7 @@ namespace EasyMiner
     public partial class MainWindow : Window
     {
 
-        string VERSION = "4";
+        string VERSION = "5";
 
         public XMRig miner = new XMRig();
         XMRigConfig conf = new XMRigConfig();
@@ -110,7 +110,7 @@ namespace EasyMiner
                     }
                     Process updater = new Process();
                     updater.StartInfo.FileName = System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe";
-                    updater.StartInfo.Arguments = $" {System.AppDomain.CurrentDomain.FriendlyName}";
+                    updater.StartInfo.Arguments = $" {Process.GetCurrentProcess().MainModule.FileName}";
                     updater.Start();
                     ExitButton();
                 }
