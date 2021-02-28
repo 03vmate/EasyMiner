@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,6 +42,9 @@ namespace EasyMiner
         {
             InitializeComponent();
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
+            autoUpdater();
+
             timer = new DispatcherTimer();
             timer.Tick += tick;
             timer.Interval = new TimeSpan(0, 0, 1);
@@ -76,10 +81,51 @@ namespace EasyMiner
             HttpThread.Start();
         }
 
-        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            onClosing(null, null);
             Exception err = e.ExceptionObject as Exception;
-            MessageBox.Show("Error in cstr: " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
+            MessageBox.Show("Stopped mining, error in cstr: " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
+        }
+
+        private void autoUpdater()
+        {
+            string currentExecutablePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            byte[] executable = File.ReadAllBytes(currentExecutablePath);
+            string hash = GetSHA256(executable);
+            if(File.Exists(Directory.GetCurrentDirectory() + "\\easyMinerDebug.txt"))
+            {
+                File.WriteAllText(Directory.GetCurrentDirectory() + "\\easyMinerDebug.txt", hash);
+            }
+            else
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string latesthash = client.DownloadString("https://uplexa.online/easyminer_latestver");
+                    if (latesthash != hash)
+                    {
+                        Process updater = new Process();
+                        updater.StartInfo.FileName = System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe";
+                        updater.StartInfo.Arguments = $" {currentExecutablePath}";
+                        updater.Start();
+                        ExitButton();
+                    }
+                }
+            }
+        }
+
+        private string GetSHA256(byte[] input)
+        {
+            using (SHA256 sha = SHA256.Create())
+            {
+                byte[] bytes = sha.ComputeHash(input);
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
 
         private void httpThread()
