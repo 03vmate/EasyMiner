@@ -125,6 +125,7 @@
                         </TextBlock.Inlines>
                     </TextBlock>
                     <Label x:Name="versionBox" Content="" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Gray"></Label>
+                    <CheckBox x:Name="debugmode" x:FieldModifier="public" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White">debug mode</CheckBox>
                 </Grid>
             </Grid>
             <!-- Left Panel -->

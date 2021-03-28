@@ -41,6 +41,7 @@ namespace EasyMiner
     class PoolConnector
     {
         string host = "https://api.uplexa.online";
+        MainWindow main = (MainWindow)Application.Current.MainWindow;
         public PoolConnector() { }
 
         public async Task<string> AsyncGetStats(string endpoint)
@@ -111,7 +112,7 @@ namespace EasyMiner
             }
             catch(Exception e)
             {
-                MessageBox.Show("Error connecting to pool: " + e.Message);
+                if(main.debugmode.IsChecked == true) MessageBox.Show("Error connecting to pool: " + e.Message);
             }
             return new PoolStats();
         }

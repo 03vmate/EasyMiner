@@ -30,7 +30,7 @@ namespace EasyMiner
     public partial class MainWindow : Window
     {
 
-        string VERSION = "6";
+        string VERSION = "8";
 
         public XMRig miner = new XMRig();
         XMRigConfig conf = new XMRigConfig();
@@ -76,7 +76,11 @@ namespace EasyMiner
             }
             catch(Exception err)
             {
-                MessageBox.Show("Error in cstr: " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
+                if(debugmode.IsChecked == true)
+                {
+                    MessageBox.Show("Error in cstr: " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
+                }
+                
             }
             
 
@@ -152,7 +156,7 @@ namespace EasyMiner
             }
             catch(Exception err)
             {
-                MessageBox.Show("Error in httpThread(): " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
+                if (debugmode.IsChecked == true) MessageBox.Show("Error in httpThread(): " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
             }
         }
 
@@ -283,7 +287,7 @@ namespace EasyMiner
             }
             catch(Exception err)
             {
-                MessageBox.Show("Error in tick(): " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
+                if (debugmode.IsChecked == true) MessageBox.Show("Error in tick(): " + err.Message + "  Source: " + err.Source + "  Method: " + err.TargetSite);
             }
         }
 
@@ -333,7 +337,7 @@ namespace EasyMiner
         {
             if (conf.user.Length != 98 || conf.user.Substring(0, 4) != "UPX1")
             {
-                if(!silent) MessageBox.Show("Invalid uPlexa address!");
+                if(!silent) MessageBox.Show("Invalid uPlexa address! Make sure you entered an address starting with 'UPX1'");
                 return false;
             }
             return true;

@@ -21,8 +21,7 @@ namespace EasyMiner
     {
         public struct XMRigStats
         {
-            public UInt16 acceptedShares;
-            public UInt16 invalidShares;
+            public UInt32 acceptedShares;
             public UInt64 difficulty;
             public int hashrateCurrent;
             public int hashrate60s;
@@ -70,9 +69,8 @@ namespace EasyMiner
                     if (e.Data.Contains("accepted"))
                     {
                         string[] shares = split[6].Substring(1, split[6].Length - 2).Split('/');
-                        UInt16 acc = UInt16.Parse(shares[0]);
+                        UInt32 acc = UInt32.Parse(shares[0]);
                         if(acc > stats.acceptedShares) stats.acceptedShares = acc;
-                        stats.invalidShares = UInt16.Parse(shares[1]);
                         stats.difficulty = UInt64.Parse(split[8]);
                     }
                     else if (e.Data.Contains("speed"))
