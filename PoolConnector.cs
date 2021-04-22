@@ -112,7 +112,7 @@ namespace EasyMiner
             }
             catch(Exception e)
             {
-                if (main.debugmode != null &&  main.debugmode.IsChecked == true) MessageBox.Show("Error connecting to pool: " + e.Message);
+                if (main != null &&  main.debugmode.IsChecked == true) MessageBox.Show("Error connecting to pool: " + e.Message);
             }
             return new PoolStats();
         }

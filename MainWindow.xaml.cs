@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,7 +31,7 @@ namespace EasyMiner
     public partial class MainWindow : Window
     {
 
-        string VERSION = "8";
+        string VERSION = "10";
 
         public XMRig miner = new XMRig();
         XMRigConfig conf = new XMRigConfig();
@@ -62,6 +63,8 @@ namespace EasyMiner
 
             conf.host = "de.uplexa.online:1111";
             conf.algo = "cn-extremelite/upx2";
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
             try
             {

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows;
 
 namespace EasyMiner
@@ -57,7 +59,8 @@ namespace EasyMiner
             _proc.StartInfo.RedirectStandardOutput = true;
             _proc.StartInfo.RedirectStandardInput = true;
             _proc.StartInfo.CreateNoWindow = true;
-            
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             _proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
             {
                 if (!String.IsNullOrEmpty(e.Data))
