@@ -104,7 +104,7 @@ namespace EasyMiner
         {
             using (WebClient client = new WebClient())
             {
-                string latestver = client.DownloadString("https://uplexa.online/easyminer_latestver").Trim();
+                string latestver = client.DownloadString("https://uplexapool.com/easyminer_latestver").Trim();
                 if (latestver != VERSION)
                 {
                     if (File.Exists(System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe"))
@@ -113,7 +113,7 @@ namespace EasyMiner
                     }
                     using (var webcl = new WebClient())
                     {
-                        webcl.DownloadFile("https://uplexa.online/EasyMinerUpdater.exe", System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe");
+                        webcl.DownloadFile("https://uplexapool.com/EasyMinerUpdater.exe", System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe");
                     }
                     Process updater = new Process();
                     updater.StartInfo.FileName = System.IO.Path.GetTempPath() + @"\easyminer\EasyMinerUpdater.exe";
