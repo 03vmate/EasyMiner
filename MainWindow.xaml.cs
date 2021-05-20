@@ -31,7 +31,7 @@ namespace EasyMiner
     public partial class MainWindow : Window
     {
 
-        string VERSION = "10";
+        string VERSION = "11";
 
         public XMRig miner = new XMRig();
         XMRigConfig conf = new XMRigConfig();
@@ -61,7 +61,7 @@ namespace EasyMiner
             statsGrid.Visibility = Visibility.Hidden;
             helpGrid.Visibility = Visibility.Hidden;
 
-            conf.host = "de.uplexa.online:1111";
+            conf.host = "mine.uplexapool.com:1111";
             conf.algo = "cn-extremelite/upx2";
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
